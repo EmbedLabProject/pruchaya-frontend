@@ -4,7 +4,7 @@ import "./globals.css";
 
 
 export const metadata: Metadata = {
-  title: "พืชญา | ตัวช่วยรุกขกร",
+  title: "พืชญา | ผู้ช่วยรุกขกร",
   description: "An embedded sys lab project",
 };
 

@@ -1,23 +1,40 @@
+"use client";
+
+
+import { MagnifyingGlassIcon } from "@heroicons/react/16/solid";
+import { initalize } from "@/script/main";
 import Image from "next/image";
 
 export default function Home() {
+
+  initalize();
+
   return (
     <>
 
   <main className="font-anuphan flex flex-col items-center w-full min-h-screen bg-gradient-to-b from-teal-500 to-emerald-200 pt-10 pb-24">
     <h1 className="text-3xl font-semibold text-white mb-5">พืชญา</h1>
-    <div className="flex flex-row w-80 gap-2 mb-5">
-      <div className="flex flex-row items-center justify-center gap-3 w-1/2 h-12 bg-white hover:bg-gray-700 hover:text-white hover:opacity-100 opacity-60 rounded-lg text-black">
+    <div className="flex flex-row w-80 gap-2 mb-10">
+      <div className="flex flex-row items-center justify-center gap-3 w-1/2 h-12 bg-white hover:opacity-100 opacity-60 rounded-lg text-black">
         <div className="w-6 h-6 bg-gray-300 rounded-full"></div>
         <p className="text-sm">โหมดอาสาสมัคร</p>
       </div>
-      <div className="flex flex-row items-center justify-center gap-3 w-1/2 h-12 bg-white hover:bg-gray-700 hover:text-white hover:opacity-100 opacity-60 rounded-lg text-black">
+      <div className="flex flex-row items-center justify-center gap-3 w-1/2 h-12 bg-white hover:opacity-100 opacity-60 rounded-lg text-black">
       <div className="w-6 h-6 bg-gray-300 rounded-full"></div>
         <p className="text-sm">โหมดมืออาชีพ</p>
       </div>
       
     </div>
-    <p className=" text-white text-lg font-medium w-80 mb-1">เลือกปัญหา</p>
+    <div className="flex flex-row w-80 mb-3 items-center justify-center">
+      <p className=" text-white text-lg font-medium w-80 mb-1">เลือกปัญหา</p>
+      <div className="relative">
+        <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+          <MagnifyingGlassIcon className="w-4 h-4"/>
+        </div>
+        <input className="rounded-full shadow-md py-4 px-3 ps-10 w-36 h-4 text-xs " type="text" placeholder="ค้นหาปัญหา"/>
+      </div>
+
+    </div>
     <div className="mb-2 flex flex-row w-80 gap-2 items-start justify-start">
       <div className="flex w-60 flex-wrap gap-2">
       <div className="w-fit h-fit bg-white text-black px-3 rounded-full font-light shadow-md text-xs py-1 hover:bg-gray-700 hover:text-white">รัศมี 2 กิโลเมตร</div>
@@ -35,7 +52,8 @@ export default function Home() {
           <p className="text-sm text-black font-medium">ชื่อปัญหา</p>
           <p className="text-xs font-light text-black">ระยะห่าง</p>
         </div>
-
+      </div>
+      <div className="flex flex-row w-full h-16 bg-white rounded-lg items-center justify-start p-2 gap-3 animate-pulse">
       </div>
     </div>
     <p className=" mt-5 text-white text-lg font-medium w-80">รายละเอียด</p>
@@ -47,7 +65,7 @@ export default function Home() {
           <p className="font-light text-sm">เริ่มแก้ไข</p>
         </div>
         <div className="flex flex-row items-center justify-center w-fit h-fit px-3 py-1 bg-white rounded-full shadow-md text-black">
-          <p className="font-light text-sm">แก้ไชเรียบร้อย</p>
+          <p className="font-light text-sm">แก้ไขเรียบร้อย</p>
         </div>
       </div>
     
