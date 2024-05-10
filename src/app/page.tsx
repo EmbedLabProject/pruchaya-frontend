@@ -50,7 +50,6 @@ export default function Home() {
     setSearchConstraint(searchConstraint.filter(c => (c["name"] != name)));
   }
 
-  console.log(searchConstraint);
 
   return (
     <>

@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 function ProblemContainer(props: any) {
 
     const {searchQuery, searchConstraint} = props;
-    console.log(searchConstraint);
+
     const [list, setList] = useState<any[]>([]);
 
 
@@ -36,7 +36,6 @@ function ProblemContainer(props: any) {
             const probs: any[] = await getAllProblems();
             const temp: any[] = probs.map(p => checkMatchQuery(p));
             setList(temp);
-            console.log(temp);
         }
         generateList();
     },[searchQuery, searchConstraint.length]);
@@ -45,7 +44,6 @@ function ProblemContainer(props: any) {
     return (
         <>
             <div className="flex flex-row flex-wrap mt-1 w-80 h-fit max-h-56 overflow-y-scroll bg-white rounded-lg bg-opacity-60 p-3 gap-2">
-                {/* <ProblemBox name="ทดสอบ" dist="2.4"/> */}
                 {list}
                 {/* <div className="flex flex-row w-full h-16 bg-white rounded-lg items-center justify-center p-2 gap-3 animate-pulse">
                     <p className="text-xs text-gray-400">กำลังโหลด...</p>

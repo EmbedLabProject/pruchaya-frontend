@@ -4,43 +4,43 @@ export function withinRadiusCon(myLat: number, myLong: number, probLat: number, 
 }
 
 export function fallenTreeCon(desc: string){
-    const keyword = ["โค่น","ล้ม","หัก","ต้น"]
-    keyword.forEach(i => {
-        if (desc.includes(i)){
+    const keyword = ["โค่น","ล้ม","หัก"]
+    for (let i of keyword) {
+        if (desc.includes(i)) {
             return true;
         }
-    })
+    }
     return false;
 }
 
 export function beeHiveCon(desc: string){
     const keyword = ["รัง"]
-    keyword.forEach(i => {
-        if (desc.includes(i)){
+    for (let i of keyword) {
+        if (desc.includes(i)) {
             return true;
         }
-    })
+    }
     return false;
 
 }
 
 export function witheredCon(desc: string){
     const keyword = ["เหี่ยว","เฉา"]
-    keyword.forEach(i => {
-        if (desc.includes(i)){
+    for (let i of keyword) {
+        if (desc.includes(i)) {
             return true;
         }
-    })
+    }
     return false;
 
 }
 
 export function obstructedCon(desc: string){
     const keyword = ["ขวาง"]
-    keyword.forEach(i => {
-        if (desc.includes(i)){
+    for (let i of keyword) {
+        if (desc.includes(i)) {
             return true;
         }
-    })
+    }
     return false;
 }
