@@ -27,6 +27,16 @@ export function setMode(isExpert: boolean){
     expertMode = isExpert;
 }
 
+export function getUserLat(){
+    return userLatitude;
+}
+
+export function getUserLong(){
+    return userLongitude;
+}
+
+
+
 
 function getLocation() {
     if (navigator.geolocation) {

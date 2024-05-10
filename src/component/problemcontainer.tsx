@@ -11,16 +11,20 @@ function ProblemContainer(props: any) {
 
 
 
-    const checkConstraint = function(desc: string) {
+    const checkConstraint = function(desc: string, lat: number, long: number) {
         let result = true;
-        searchConstraint.forEach(((element: { [x: string]: (arg0: string) => any; }) => {
-            result = result && element["function"](desc);
+        searchConstraint.forEach(((element: any) => {
+            if (element["name"] == "รัศมี 5 กิโลเมตร"){
+                result = result && element["function"](lat, long);
+            } else {
+                result = result && element["function"](desc);
+            }
         }));
         return result;
     };
 
     function checkMatchQuery(problem: any){
-        if (problem.description.includes(searchQuery) && checkConstraint(problem.description)){
+        if (problem.description.includes(searchQuery) && checkConstraint(problem.description,problem.lat,problem.long)){
             return true;
         }
         return false;

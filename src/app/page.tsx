@@ -79,15 +79,19 @@ export default function Home() {
     </div>
     <div className="mb-2 flex flex-row w-80 gap-2 items-start justify-start">
       <div className="flex w-60 flex-wrap gap-2">
-        <ConstraintButton add={addConstraint} rem={removeConstraint} constraint={withinRadiusCon} setState={setWithinRadius} selected={withinRadius} text="รัศมี 2 กิโลเมตร"/>
+        <ConstraintButton add={addConstraint} rem={removeConstraint} constraint={withinRadiusCon} setState={setWithinRadius} selected={withinRadius} text="รัศมี 5 กิโลเมตร"/>
         <ConstraintButton add={addConstraint} rem={removeConstraint} constraint={fallenTreeCon} setState={setFallenTree} selected={fallenTree} text="ต้นไม้โค่น"/>
         <ConstraintButton add={addConstraint} rem={removeConstraint} constraint={beeHiveCon} setState={setBeeHive} selected={beeHive} text="รังสัตว์"/>
         <ConstraintButton add={addConstraint} rem={removeConstraint} constraint={witheredCon} setState={setWithered} selected={withered} text="เหี่ยวเฉา"/>
         <ConstraintButton add={addConstraint} rem={removeConstraint} constraint={obstructedCon} setState={setObstructed} selected={obstructed} text="กีดขวาง"/>
       </div>
-      
     </div>
     <ProblemContainer searchQuery={searchQuery} searchConstraint={searchConstraint}/>
+    <div className="mt-2 flex flex-row w-80 justify-end">
+    <p className="text-xs font-light">ขอขอบคุณข้อมูลจาก <span className=""><a href="https://traffy.in.th" target="_blank" rel="noopener noreferrer" className="underline font-medium">Traffy Fondue</a></span></p>
+    </div>
+
+
     <p className=" mt-5 text-white text-lg font-medium w-80">รายละเอียด</p>
     <div className="flex flex-col w-80 h-fit gap-3 bg-white rounded-lg bg-opacity-60 items-center justify-start p-3">
       <div className="flex flex-row gap-3"><div className="w-32 h-20 bg-gray-700 rounded-lg"></div>
