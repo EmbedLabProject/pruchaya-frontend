@@ -61,7 +61,7 @@ export default function Home() {
         <div className="w-6 h-6 bg-gray-300 rounded-full"></div>
         <p className="text-sm">โหมดอาสาสมัคร</p>
       </button>
-      <button onClick={() => handleModeChange(true)} className={"flex flex-row items-center justify-center gap-3 w-1/2 h-12 bg-white hover:opacity-100 opacity-60 rounded-lg text-black " + expertButtonProp}>
+      <button onClick={() => handleModeChange(true)} className={"flex flex-row items-center justify-center gap-3 w-1/2 h-12 bg-white rounded-lg text-black " + expertButtonProp}>
       <div className="w-6 h-6 bg-gray-300 rounded-full"></div>
         <p className="text-sm">โหมดมืออาชีพ</p>
       </button>
@@ -88,7 +88,7 @@ export default function Home() {
     </div>
     <ProblemContainer searchQuery={searchQuery} searchConstraint={searchConstraint}/>
     <div className="mt-2 flex flex-row w-80 justify-end">
-    <p className="text-xs font-light">ขอขอบคุณข้อมูลจาก <span className=""><a href="https://traffy.in.th" target="_blank" rel="noopener noreferrer" className="underline font-medium">Traffy Fondue</a></span></p>
+    <p className="text-xs font-light text-white">ขอขอบคุณข้อมูลจาก <span className=""><a href="https://traffy.in.th" target="_blank" rel="noopener noreferrer" className="underline font-medium">Traffy Fondue</a></span></p>
     </div>
 
 
