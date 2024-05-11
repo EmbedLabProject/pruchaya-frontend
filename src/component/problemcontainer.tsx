@@ -59,7 +59,7 @@ function ProblemContainer(props: any) {
     
     return (
         <>
-            <div className="flex flex-row flex-wrap mt-1 w-80 h-fit max-h-56 overflow-y-scroll bg-white rounded-lg bg-opacity-60 p-3 gap-2">
+            <div className="flex flex-row flex-wrap mt-1 w-80 h-fit max-h-56 overflow-y-scroll bg-white rounded-lg bg-opacity-60 p-3 gap-2 shadow-md">
                 {list}
                 {(!loading && list.length == 0) ? notFoundUI : null}
                 {(loading) ? skeletonUI : null}

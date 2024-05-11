@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+
 import { MagnifyingGlassIcon } from "@heroicons/react/16/solid";
 import { initalize, isExpertMode, setMode } from "@/script/main";
 import Image from "next/image";
