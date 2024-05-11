@@ -1,9 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { MagnifyingGlassIcon } from "@heroicons/react/16/solid";
-import { initalize, isExpertMode, setMode } from "@/script/main";
+import { getUserLat, initalize, isExpertMode, setMode } from "@/script/main";
 import Image from "next/image";
 import ProblemContainer from "@/component/problemcontainer";
 import ConstraintButton from "@/component/constraintbutton";
@@ -12,7 +12,7 @@ import ProblemDetailBox from "@/component/problemdetailbox";
 
 export default function Home() {
 
-  initalize();
+  
 
   const [expertMode, setExpertMode] = useState(isExpertMode());
   
@@ -55,6 +55,18 @@ export default function Home() {
 
   const [selectedProb, setSelectedProb] = useState("");
 
+
+
+  const [loading, setLoading] = useState(true);
+  useEffect(() => {
+    async function main(){
+      console.log(getUserLat());
+      await initalize();
+      console.log(getUserLat());
+      setLoading(false);
+    }
+      main();
+  },[loading]);
 
   return (
     <>

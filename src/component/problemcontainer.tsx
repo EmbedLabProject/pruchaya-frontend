@@ -1,14 +1,17 @@
-import { getAllProblems } from "@/script/main";
+import { distFromUser, getAllProblems } from "@/script/main";
 import ProblemBox from "./problembox";
 import { useEffect, useState } from "react";
 
+
 function ProblemContainer(props: any) {
 
-    const {searchQuery, searchConstraint, setSelected} = props;
+    const {searchQuery, searchConstraint, setSelected, load} = props;
 
     const [list, setList] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
+    
 
+    
 
 
     const checkConstraint = function(desc: string, lat: number, long: number) {
@@ -39,9 +42,10 @@ function ProblemContainer(props: any) {
                 if(checkMatchQuery(p)){
                     let desc = p.description;
                     if (desc.length > 25) {
-                    desc = desc.substring(0, 25) + "...";
+                        desc = desc.substring(0, 25) + "...";
                     }
-                    temp.push(<ProblemBox key={p.ticket_id} name={desc} dist="??" onClick={() => setSelected(p.ticket_id)}/>);
+                    // let dist = distFromUser(p.lat,p.long).toFixed(2);
+                    temp.push(<ProblemBox key={p.ticket_id} name={desc} onClick={() => setSelected(p.ticket_id)}/>);
                 }
             });
             setList(temp);

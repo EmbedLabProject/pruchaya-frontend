@@ -40,9 +40,26 @@ export function getUserLong(){
 }
 
 
+function calculateDist(lat1: number, lon1: number, lat2: number, lon2: number){
+    const k = (Math.PI/180);
+    // console.log("Lat 1: " + lat1);
+    // console.log("Lon 1: " + lon1);
+    // console.log("Lat 2: " + lat2);
+    // console.log("Lon 2: " + lon2);
+    return Math.acos(Math.sin(k*lat1)*Math.sin(k*lat2)+Math.cos(k*lat1)*Math.cos(k*lat2)*Math.cos(k*lon2-k*lon1))*6371;
+    
+}
+
+export function distFromUser(lat1: number, lon1: number){
+    let lat2 = getUserLat();
+    let lon2 = getUserLong();
+    return calculateDist(lat1, lon1, lat2, lon2);
+}
+
 
 
 function getLocation() {
+    
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(success, error);
     } else {

@@ -1,4 +1,4 @@
-import { getProblemById } from "@/script/main";
+import { distFromUser, getProblemById } from "@/script/main";
 import Image from 'next/image'
 
 import { useEffect, useState } from "react";
@@ -19,7 +19,9 @@ function ProblemDetailBox(props: any){
         }
         getData();
     },[problem]);
-
+    
+    
+    const d = distFromUser(currentProb.lat, currentProb.long).toFixed(2);
 
     const problemNotChosen = <div className="flex w-full items-center justify-center"><p className="text-xs text-black">ยังไม่ได้เลือกปัญหา</p></div>;
 
@@ -30,7 +32,7 @@ function ProblemDetailBox(props: any){
         </a>
         <div className="flex flex-col gap-1">
         <p className="w-40 text-wrap text-xs text-black"><span className="font-semibold">รหัสปัญหา </span>{currentProb.ticket_id}</p>
-        <p className="w-40 text-wrap text-xs text-black"><span className="font-semibold">ประเภท </span>ไม่ระบุ</p>
+        <p className="w-40 text-wrap text-xs text-black"><span className="font-semibold">ประเภท </span>อื่น ๆ</p>
         <p className="w-40 text-wrap text-xs text-black font-semibold">วันที่รายงาน</p>
         <p className="w-40 text-wrap text-xs text-black"><span className="font-semibold"></span>{currentProb.timestamp}</p>
         <div className="flex flex-row gap-2 w-40 items-center justify-start">
@@ -46,6 +48,8 @@ function ProblemDetailBox(props: any){
         <div className="flex flex-col w-full">
             <p className="text-xs text-black font-semibold">ตำแหน่ง</p>
             <p className="w-full text-xs text-black text-balance">{currentProb.address}</p>
+            <p className="w-full text-xs text-black text-balance">{"(" + d +" กิโลเมตร จากท่าน)"}</p>
+
         </div>
         <div className="flex flex-col w-full">
             <p className="text-xs text-black font-semibold">คำอธิบาย</p>

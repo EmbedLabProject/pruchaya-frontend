@@ -8,7 +8,7 @@ function ProblemBox(props: any){
             <div className="w-12 h-12 rounded-full bg-gray-600"></div>
             <div className="flex flex-col items-start">
                 <p className="text-sm text-black font-medium">{name}</p>
-                <p className="text-xs font-light text-black">{dist} กิโลเมตร</p>
+                <p className="text-xs font-light text-black">อื่น ๆ</p>
             </div>
         </button>
 
