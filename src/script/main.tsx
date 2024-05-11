@@ -23,6 +23,10 @@ export async function getAllProblems(){
     return allProblems;
 }
 
+export async function getProblemById(id: string){
+    return (await getAllProblems()).find(p => (p.ticket_id == id));
+}
+
 export function setMode(isExpert: boolean){
     expertMode = isExpert;
 }

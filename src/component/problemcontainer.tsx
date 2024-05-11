@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 
 function ProblemContainer(props: any) {
 
-    const {searchQuery, searchConstraint} = props;
+    const {searchQuery, searchConstraint, setSelected} = props;
 
     const [list, setList] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
@@ -41,7 +41,7 @@ function ProblemContainer(props: any) {
                     if (desc.length > 25) {
                     desc = desc.substring(0, 25) + "...";
                     }
-                    temp.push(<ProblemBox key={p.ticket_id} name={desc} dist="??"/>);
+                    temp.push(<ProblemBox key={p.ticket_id} name={desc} dist="??" onClick={() => setSelected(p.ticket_id)}/>);
                 }
             });
             setList(temp);

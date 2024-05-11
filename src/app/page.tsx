@@ -7,6 +7,7 @@ import Image from "next/image";
 import ProblemContainer from "@/component/problemcontainer";
 import ConstraintButton from "@/component/constraintbutton";
 import {withinRadiusCon, witheredCon, obstructedCon, beeHiveCon, fallenTreeCon} from "@/script/searchconstraint";
+import ProblemDetailBox from "@/component/problemdetailbox";
 
 export default function Home() {
 
@@ -51,6 +52,9 @@ export default function Home() {
   }
 
 
+  const [selectedProb, setSelectedProb] = useState("");
+
+
   return (
     <>
 
@@ -86,26 +90,14 @@ export default function Home() {
         <ConstraintButton add={addConstraint} rem={removeConstraint} constraint={obstructedCon} setState={setObstructed} selected={obstructed} text="กีดขวาง"/>
       </div>
     </div>
-    <ProblemContainer searchQuery={searchQuery} searchConstraint={searchConstraint}/>
+    <ProblemContainer setSelected={setSelectedProb} searchQuery={searchQuery} searchConstraint={searchConstraint}/>
     <div className="mt-2 flex flex-row w-80 justify-end">
     <p className="text-xs font-light text-white">ขอขอบคุณข้อมูลจาก <span className=""><a href="https://traffy.in.th" target="_blank" rel="noopener noreferrer" className="underline font-medium">Traffy Fondue</a></span></p>
     </div>
 
 
     <p className=" mt-5 text-white text-lg font-medium w-80">รายละเอียด</p>
-    <div className="flex flex-col w-80 h-fit gap-3 bg-white rounded-lg bg-opacity-60 items-center justify-start p-3">
-      <div className="flex flex-row gap-3"><div className="w-32 h-20 bg-gray-700 rounded-lg"></div>
-      <p className="w-40 text-wrap text-xs text-black">คำอธิบายคำอธิบายคำอธิบายคำอธิบายคำอธิบายคำอธิบายคำอธิบายคำอธิบายคำอธิบายคำอธิบายคำอธิบาย</p></div>
-      <div className="mt-5 flex flex-row items-center justify-center w-full gap-2">
-        <div className="flex flex-row items-center justify-center w-fit h-fit px-3 py-1 bg-white rounded-full shadow-md text-black">
-          <p className="font-light text-sm">เริ่มแก้ไข</p>
-        </div>
-        <div className="flex flex-row items-center justify-center w-fit h-fit px-3 py-1 bg-white rounded-full shadow-md text-black">
-          <p className="font-light text-sm">แก้ไขเรียบร้อย</p>
-        </div>
-      </div>
-    
-    </div>
+    <ProblemDetailBox problem={selectedProb}/>
 
     <p className=" mt-5 text-white text-lg font-medium w-80">เครื่องมือ</p>
     <div className="mb-2 flex flex-row flex-wrap w-80 gap-2">
