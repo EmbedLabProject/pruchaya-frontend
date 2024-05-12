@@ -9,6 +9,9 @@ import ProblemContainer from "@/component/problemcontainer";
 import ConstraintButton from "@/component/constraintbutton";
 import {withinRadiusCon, witheredCon, obstructedCon, beeHiveCon, fallenTreeCon} from "@/script/searchconstraint";
 import ProblemDetailBox from "@/component/problemdetailbox";
+import IdentifyPlant from "@/component/tools/identifyplant";
+import ReadSensor from "@/component/tools/readsensor";
+import ChatBot from "@/component/tools/chatbot";
 
 export default function Home() {
 
@@ -68,6 +71,23 @@ export default function Home() {
       main();
   },[loading]);
 
+
+  const [selectedTool, setSelectedTool] = useState("identifyplant");
+
+  let toolElement = <></>;
+  if (selectedTool == "identifyplant"){
+    toolElement = <IdentifyPlant/>;
+  }
+  else if (selectedTool == "readsensor"){
+    toolElement = <ReadSensor/>;
+  }
+  else if (selectedTool == "chatbot"){
+    toolElement = <ChatBot/>;
+  }
+  else {
+    toolElement = <></>;
+  }
+
   return (
     <>
 
@@ -114,11 +134,11 @@ export default function Home() {
 
     <p className=" mt-5 text-white text-lg font-medium w-80">เครื่องมือ</p>
     <div className="mb-2 flex flex-row flex-wrap w-80 gap-2">
-      <div className="w-fit h-fit bg-white text-black px-3 rounded-full font-light shadow-md text-xs py-1 hover:bg-gray-700 hover:text-white">ค้นหาชนิดพืช</div>
-      <div className="w-fit h-fit bg-white text-black px-3 rounded-full font-light shadow-md text-xs py-1 hover:bg-gray-700 hover:text-white">อ่านค่าเซนเซอร์</div>
-      <div className="w-fit h-fit bg-white text-black px-3 rounded-full font-light shadow-md text-xs py-1 hover:bg-gray-700 hover:text-white">AI ผู้ช่วย</div>
+      <button onClick={() => setSelectedTool("identifyplant")} className="w-fit h-fit bg-white text-black px-3 rounded-full font-light shadow-md text-xs py-1 hover:bg-gray-700 hover:text-white">ค้นหาชนิดพืช</button>
+      <button onClick={() => setSelectedTool("readsensor")} className="w-fit h-fit bg-white text-black px-3 rounded-full font-light shadow-md text-xs py-1 hover:bg-gray-700 hover:text-white">อ่านค่าเซนเซอร์</button>
+      <button onClick={() => setSelectedTool("chatbot")} className="w-fit h-fit bg-white text-black px-3 rounded-full font-light shadow-md text-xs py-1 hover:bg-gray-700 hover:text-white">AI ผู้ช่วย</button>
     </div>
-    <div className="w-80 h-32 bg-white rounded-lg opacity-60 mb-5"></div>
+    {toolElement}
 
   </main>
     
