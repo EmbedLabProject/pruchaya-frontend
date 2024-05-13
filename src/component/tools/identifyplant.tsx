@@ -11,7 +11,10 @@ function IdentifyPlant(props: any){
     const [list, setList] = useState<any[]>([]);
 
     function handleFile(){
-        <input type="file" accept="image/*" />
+        <form action="/action_page.php">
+            <input type="file" id="myFile" name="filename"></input>
+            <input type="submit"></input>
+        </form>
     }
     
     function submitImage(){
@@ -47,15 +50,15 @@ function IdentifyPlant(props: any){
         <div className="w-80 h-35 bg-white rounded-lg opacity-60 mb-5 shadow-md"> 
             <p className="text-xs text-black mx-1 my-1">กรุณาใส่ไฟล์ภาพต้นไม้ที่สนใจ   </p>
             <ul className="list-none mx-5 my-1 flex flex-col sm:flex-row items-center gap-5 content-stretch">
-                <button onClick={() => handleFile()} className={"flex flex-row items-center justify-center gap-3 w-20 h-20 bg-neutral-200 rounded-lg opacity-80" }>
-                <ArrowUpTrayIcon className="w-8 h-8"/>
-            </button>
-            <button onClick={() => handleFile()} className={"flex flex-row text-black items-center justify-center gap-3 w-20 h-20 bg-neutral-200 rounded-lg opacity-80"}>
-                <ArrowUpTrayIcon className="w-8 h-8"/>
-            </button>
-            <button onClick={() => handleFile()} className={"flex flex-row items-center justify-center gap-3 w-20 h-20 bg-neutral-200 rounded-lg opacity-80"}>
-                <ArrowUpTrayIcon className="w-8 h-8"/>
-            </button>
+                <button onClick={() => handleFile()} id="first-picture" className={"flex flex-row items-center justify-center gap-3 w-20 h-20 bg-neutral-200 rounded-lg opacity-80"}>
+                    <ArrowUpTrayIcon className="w-8 h-8"/>
+                </button>
+                <button onClick={() => handleFile()} id="second-picture" className={"flex flex-row text-black items-center justify-center gap-3 w-20 h-20 bg-neutral-200 rounded-lg opacity-80"}>
+                    <ArrowUpTrayIcon className="w-8 h-8"/>
+                </button>
+                <button onClick={() => handleFile()} id="-picture" className={"flex flex-row items-center justify-center gap-3 w-20 h-20 bg-neutral-200 rounded-lg opacity-80"}>
+                    <ArrowUpTrayIcon className="w-8 h-8"/>
+                </button>
             </ul>
             {(loading) ? infoUI : null}
             <div className="w-80 mb-3 flex justify-end -mx-5 my-2 gap-3">
