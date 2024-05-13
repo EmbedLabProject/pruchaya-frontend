@@ -2,36 +2,74 @@
 import { ArrowUpTrayIcon } from "@heroicons/react/24/outline";
 import { ArrowPathIcon } from "@heroicons/react/24/outline";
 import { MagnifyingGlassCircleIcon } from "@heroicons/react/24/outline";
+import { useState } from "react";
 
 function IdentifyPlant(props: any){
 
-    function handleFile(isExpert: boolean){
+    const [awating, setAwaiting] = useState(true)
+    const [loading, setLoading] = useState(false)
+    const [list, setList] = useState<any[]>([]);
 
+    function handleFile(){
+        <input type="file" accept="image/*" />
     }
+    
+    function submitImage(){
+        setAwaiting(false)
+        setLoading(true)
+    }
+
+    function reloadImage(){
+        setAwaiting(true)
+        setLoading(false)
+    }
+    const notFoundUI = <div className="flex w-full items-center justify-center"><p className="text-xs font-light text-black">พืชนี้ไม่มีในระบบ</p></div>;
+    const skeletonUI = <><p className="flex flex-row w-full h-16 bg-white rounded-lg items-center justify-center p-2 gap-3 animate-pulse">
+        <p className="text-xs text-gray-400">กำลังโหลด...</p>
+        </p></>;
+    const infoUI = <section className="bg-white items-center justify-center mx-5 my-5 gap-5">
+        <h1 className="text-sm font-bold text-left text-black">
+            ชื่อทางวิทยาศาสตร์: 
+            {(loading) ? skeletonUI : null}
+        </h1>
+        <article>
+            <h2 className="text-sm font-bold text-left text-black">
+                คำอธิบาย: 
+                {(loading) ? skeletonUI : null}
+            </h2>
+        </article>
+</section>
+    
 
     // FILL CODE INSIDE THE RETURN STATEMENT
     return (<>
 
         <div className="w-80 h-35 bg-white rounded-lg opacity-60 mb-5 shadow-md"> 
-            <ul className="list-none mx-5 my-5 flex flex-col sm:flex-row items-center gap-5 content-stretch">
-                <button onClick={() => handleFile(false)} className={"flex flex-row items-center justify-center gap-3 w-20 h-20 bg-neutral-200 rounded-lg opacity-80" }>
+            <p className="text-xs text-black mx-1 my-1">กรุณาใส่ไฟล์ภาพต้นไม้ที่สนใจ   </p>
+            <ul className="list-none mx-5 my-1 flex flex-col sm:flex-row items-center gap-5 content-stretch">
+                <button onClick={() => handleFile()} className={"flex flex-row items-center justify-center gap-3 w-20 h-20 bg-neutral-200 rounded-lg opacity-80" }>
                 <ArrowUpTrayIcon className="w-8 h-8"/>
             </button>
-            <button onClick={() => handleFile(false)} className={"flex flex-row items-center justify-center gap-3 w-20 h-20 bg-neutral-200 rounded-lg opacity-80"}>
+            <button onClick={() => handleFile()} className={"flex flex-row text-black items-center justify-center gap-3 w-20 h-20 bg-neutral-200 rounded-lg opacity-80"}>
                 <ArrowUpTrayIcon className="w-8 h-8"/>
             </button>
-            <button onClick={() => handleFile(false)} className={"flex flex-row items-center justify-center gap-3 w-20 h-20 bg-neutral-200 rounded-lg opacity-80"}>
+            <button onClick={() => handleFile()} className={"flex flex-row items-center justify-center gap-3 w-20 h-20 bg-neutral-200 rounded-lg opacity-80"}>
                 <ArrowUpTrayIcon className="w-8 h-8"/>
             </button>
             </ul>
-            <div className="w-80 mb-3 grid justify-items-end content-center gap-5">
-                <button className="items-center justify-center rounded-lg shadow-md w-6 h-6">
+            {(loading) ? infoUI : null}
+            <div className="w-80 mb-3 flex justify-end -mx-5 my-2 gap-3">
+                <button onClick={() => submitImage()} className={"bg-white text-black grid items-center justify-center rounded-lg shadow-md w-12 h-6"}>
                     <MagnifyingGlassCircleIcon className="w-6 h-6 "/>
                 </button>
-                <button className="items-center justify-center rounded-lg shadow-md w-6 h-6">
+                <button onClick={() => reloadImage()} className={"bg-white text-black grid items-center justify-center rounded-lg shadow-md w-12 h-6"}>
                     <ArrowPathIcon className="w-6 h-6"/>
                 </button>
             </div>
+            
+
+            {(!loading && !awating) ? notFoundUI : null}
+            
         </div>
 
     
