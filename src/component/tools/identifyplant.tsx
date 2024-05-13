@@ -1,7 +1,7 @@
 
-import { ArrowUpTrayIcon } from "@heroicons/react/24/outline";
-import { ArrowPathIcon } from "@heroicons/react/24/outline";
-import { MagnifyingGlassCircleIcon } from "@heroicons/react/24/outline";
+import { ArrowUpTrayIcon } from "@heroicons/react/16/solid";
+import { ArrowPathIcon } from "@heroicons/react/16/solid";
+import { MagnifyingGlassIcon } from "@heroicons/react/16/solid";
 import { useState } from "react";
 
 function IdentifyPlant(props: any){
@@ -63,7 +63,7 @@ function IdentifyPlant(props: any){
             {(loading) ? infoUI : null}
             <div className="w-80 mb-3 flex justify-end -mx-5 my-2 gap-3">
                 <button onClick={() => submitImage()} className={"bg-white text-black grid items-center justify-center rounded-lg shadow-md w-12 h-6"}>
-                    <MagnifyingGlassCircleIcon className="w-6 h-6 "/>
+                    <MagnifyingGlassIcon className="w-6 h-6 "/>
                 </button>
                 <button onClick={() => reloadImage()} className={"bg-white text-black grid items-center justify-center rounded-lg shadow-md w-12 h-6"}>
                     <ArrowPathIcon className="w-6 h-6"/>
