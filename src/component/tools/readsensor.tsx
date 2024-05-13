@@ -1,5 +1,9 @@
 import { MagnifyingGlassIcon } from "@heroicons/react/16/solid";
 import { ArrowPathIcon } from "@heroicons/react/16/solid";
+import { SunIcon } from "@heroicons/react/16/solid";
+import { InformationCircleIcon } from "@heroicons/react/16/solid";
+import { BeakerIcon } from "@heroicons/react/16/solid";
+import { ShieldExclamationIcon } from "@heroicons/react/16/solid";
 import { useState } from "react";
 function ReadSensor(props: any){
 
