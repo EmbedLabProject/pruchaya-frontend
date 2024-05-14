@@ -17,14 +17,32 @@ function ReadSensor(props: any){
     function reloadID(){
         setLoading(false)
     }
+    const notFoundUI = <div className="flex w-full items-center justify-center"><p className="text-xs font-light text-black">พืชนี้ไม่มีในระบบ</p></div>;
+    const skeletonUI = <><p className="flex flex-row w-full h-16 bg-white rounded-lg items-center justify-center p-2 gap-3 animate-pulse">
+        <p className="text-xs text-gray-400">กำลังโหลด...</p>
+        </p></>;
+    const infoUI = <section className="bg-white items-center justify-center mx-5 my-5 gap-5">
+        <h1 className="text-sm font-bold text-left text-black">
+            วันที่วัดค่า: 1/1/2567 09:41
+            {(loading) ? skeletonUI : null}
+        </h1>
+        <article>
+            <h2 className="text-sm font-bold text-left text-black">
+                สถานะต้นไม้: 
+                {(loading) ? skeletonUI : null}
+            </h2>
+        </article>
+    </section>
+
+    
 
     // FILL CODE INSIDE THE RETURN STATEMENT
     return (<>
 
         <div className="w-80 h-32 bg-white rounded-lg opacity-60 mb-5">
             <p className="text-xs text-black">Hi, I'm Sensor Reader!</p>
-            <div className="flex flex-row w-80 mb-3 items-center justify-center mx-5">
-                <p className=" text-black text-xs w-30 mb-1">รหัสของอุปกรณ์</p>
+            <div className="flex flex-row w-80 mb-3 items-center justify-center gap-5">
+                <p className=" text-black text-xs w-35 mb-1">รหัสของอุปกรณ์</p>
                 <input value={searchQuery} onChange={event => setSearchQuery(event.target.value)} className="rounded-full shadow-md py-4 px-3 ps-10 w-45 h-4 text-xs text-black" type="text" placeholder="device ID"/>
             </div>
             <div className="w-80 mb-3 flex justify-end -mx-5 my-2 gap-3">
@@ -35,6 +53,8 @@ function ReadSensor(props: any){
                     <ArrowPathIcon className="w-6 h-6"/>
                 </button>
             </div>
+
+            {(loading) ? infoUI : null}
 
             
         </div>
