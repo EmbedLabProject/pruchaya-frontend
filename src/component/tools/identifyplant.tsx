@@ -41,7 +41,7 @@ function IdentifyPlant(props: any){
                 {(loading) ? skeletonUI : null}
             </h2>
         </article>
-        </section>
+    </section>
     
 
     // FILL CODE INSIDE THE RETURN STATEMENT
