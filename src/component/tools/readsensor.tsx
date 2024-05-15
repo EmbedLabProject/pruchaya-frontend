@@ -16,11 +16,9 @@ function ReadSensor(props: any){
     const [humidity,setHumidity] = useState(-1)
     const [light,setLight] = useState(-1)
     const [vibration,setVibration] = useState(-1)
-    const [pH,setpH] = useState(-1)
     const [recHumidity,setRecHumidity] = useState(75)
-    const [recLight,setRecLight] = useState(0)
-    const [recVibration,setRecVibration] = useState(0)
-    const [recPH,setRecPH] = useState(7)
+    const [recLight,setRecLight] = useState(70)
+    const [recVibration,setRecVibration] = useState(60)
 
     function submitID(){
         setAwaiting(false)
@@ -32,7 +30,6 @@ function ReadSensor(props: any){
         setHumidity(10)
         setLight(20)
         setVibration(19)
-        setpH(2)
     }
 
     function reloadID(){
@@ -44,7 +41,6 @@ function ReadSensor(props: any){
         setHumidity(-1)
         setLight(-1)
         setVibration(-1)
-        setpH(-1)
         console.log("rerererere")
     }
 
@@ -74,7 +70,7 @@ function ReadSensor(props: any){
             <div className="flex items-center space-x-3">
                 <div className="w-6 h-6 rounded-full bg-blue-800 grid place-content-center">
                     <BeakerIcon className="w-4 h-4 text-white" />
-                    {/* <SunIcon className="w-4 h-4 text-white"/> */}
+
                     {/* <ShieldExclamationIcon className="w-4 h-4 text-white"/> */}
                     {/* <div className="text-xs text-white">pH</div> */}
                 </div>
@@ -91,20 +87,44 @@ function ReadSensor(props: any){
             </div>
         </div>
     
-    const pHMeterUI =
+    const lightUI =
         <div className="flex flex-row w-full h-16 items-center justify-start p-2">                
             <div className="flex items-center space-x-3">
-                <div className="w-6 h-6 rounded-full bg-blue-800 grid place-content-center">
-                    <div className="text-xs text-white">pH</div>
+                <div className="w-6 h-6 rounded-full bg-yellow-400 grid place-content-center">
+                    <SunIcon className="w-4 h-4 text-white"/>
                 </div>
                 <div className="relative w-52 h-5 bg-gray-200 rounded-full overflow-hidden">
                     <div
                     className="h-full transition-all duration-300 ease-in-out"
-                    style={{ width: `${(pH / 14) * 100}%`, backgroundColor: getColorPH(pH) }}
+                    style={{ width: `${(light / 100) * 100}%`, backgroundColor: getColorPH(light) }}
                     ></div>
                     <div
                     className="absolute top-0 bottom-0 w-1 bg-red-500"
-                    style={{ left: `${(recPH / 14) * 100}%` }}
+                    style={{ left: `${(recLight / 100) * 100}%` }}
+                    ></div>
+                </div>
+                <div className="flex flex-col items-start">
+                    <button className="">
+                        <InformationCircleIcon className="w-4 h-4 text-blue-800"/>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+const vibrationUI =
+        <div className="flex flex-row w-full h-16 items-center justify-start p-2">                
+            <div className="flex items-center space-x-3">
+                <div className="w-6 h-6 rounded-full bg-yellow-900 grid place-content-center">
+                    <ShieldExclamationIcon className="w-4 h-4 text-white"/>
+                </div>
+                <div className="relative w-52 h-5 bg-gray-200 rounded-full overflow-hidden">
+                    <div
+                    className="h-full transition-all duration-300 ease-in-out"
+                    style={{ width: `${(vibration / 100) * 100}%`, backgroundColor: getColorPH(vibration) }}
+                    ></div>
+                    <div
+                    className="absolute top-0 bottom-0 w-1 bg-red-500"
+                    style={{ left: `${(recVibration / 100) * 100}%` }}
                     ></div>
                 </div>
                 <div className="flex flex-col items-start">
@@ -127,7 +147,7 @@ function ReadSensor(props: any){
         <article>
             <h2 className="text-sm font-bold text-left text-black">
                 สถานะต้นไม้: 
-                {(!loading && (humidity==-1 || light==-1 || vibration==-1 || pH==-1)) ? (notFoundUI) : [waterUI, pHMeterUI]}
+                {(!loading && (humidity==-1 || light==-1 || vibration==-1)) ? (notFoundUI) : [waterUI, lightUI,vibrationUI]}
                 {(loading) ? skeletonUI : null}
             </h2>
             
