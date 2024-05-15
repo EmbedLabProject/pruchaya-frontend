@@ -9,11 +9,12 @@ function ChatBot(props: any){
 
     function submitID(){
         setLoading(true)
-        console.log("want to know: " + searchText)
+        console.log("want to know Q: " + searchText)
     }
 
     function reloadID(){
         setLoading(false)
+        setSearchText("")
         console.log("rerererere")
     }
 
@@ -21,11 +22,15 @@ function ChatBot(props: any){
     return (<>
 
         <div className="w-80 h-fit bg-white rounded-lg opacity-60 mb-5 gap-2">
-            <div className="w-80 h-32 flex flex-row"></div>
+            <div className="w-80 h-60 flex flex-row"></div>
             <section className="w-60 gap-3 mx-1 my-1">
-                <div className="flex w-60 flex-wrap gap-1">
-                    <FAQsButton add={""} rem={""} constraint={""} setState={""} selected={""} text="วิธีการตัดแต่ง"/>
-                    <FAQsButton add={""} rem={""} constraint={""} setState={""} selected={""} text="วิธีการดูแล"/>
+                <div className="flex w-72 flex-wrap gap-1 justify-end">
+                    <FAQsButton setText={setSearchText} text={searchText} name="วิธีการตัดแต่ง"/>
+                    <FAQsButton setText={setSearchText} text={searchText} name="ดูแลยังไง"/>
+                    <FAQsButton setText={setSearchText} text={searchText} name="รดน้ำยังไง"/>
+                    <FAQsButton setText={setSearchText} text={searchText} name="ดินเป็นกรด"/>
+                    <FAQsButton setText={setSearchText} text={searchText} name="ดินเป็นด่าง"/>
+                    <FAQsButton setText={setSearchText} text={searchText} name="วิธีการปลูก"/>
                 </div>
                 <div className="flex flex-row w-80 mb-3 items-center justify-center content-center inset-y-0 place-items-end">
                     <div className="relative mt-1">

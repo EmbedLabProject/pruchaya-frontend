@@ -8,7 +8,9 @@ import { ShieldExclamationIcon } from "@heroicons/react/16/solid";
 function ReadSensor(props: any){
 
     const [searchID, setSearchID] = useState("")
+    const [awating, setAwaiting] = useState(true)
     const [loading, setLoading] = useState(false)
+    const [showing, setshowing] = useState(false)
     const [date,setDate] = useState("")
     const [time,setTime] = useState("")
     const [humidity,setHumidity] = useState(-1)
@@ -17,8 +19,10 @@ function ReadSensor(props: any){
     const [pH,setpH] = useState(-1)
 
     function submitID(){
+        setAwaiting(false)
         setLoading(true)
-        console.log("want to know: " + searchID)
+        setshowing(false)
+        console.log("want to know ID: " + searchID)
         setDate("1/1/2567")
         setTime("09:47")
         setHumidity(10)
@@ -28,7 +32,9 @@ function ReadSensor(props: any){
     }
 
     function reloadID(){
+        setAwaiting(true)
         setLoading(false)
+        setshowing(false)
         setDate("")
         setTime("")
         setHumidity(-1)
@@ -96,9 +102,6 @@ function ReadSensor(props: any){
                     <ArrowPathIcon className="w-6 h-6"/>
                 </button>
             </div>
-            
-
-            
         </div>
         
 
