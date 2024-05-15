@@ -7,7 +7,7 @@ import { InformationCircleIcon } from "@heroicons/react/16/solid";
 import { ShieldExclamationIcon } from "@heroicons/react/16/solid";
 function ReadSensor(props: any){
 
-    const [searchQuery, setSearchQuery] = useState("")
+    const [searchID, setSearchID] = useState("")
     const [loading, setLoading] = useState(false)
     const [date,setDate] = useState("")
     const [time,setTime] = useState("")
@@ -18,6 +18,7 @@ function ReadSensor(props: any){
 
     function submitID(){
         setLoading(true)
+        console.log("want to know: " + searchID)
         setDate("1/1/2567")
         setTime("09:47")
         setHumidity(10)
@@ -34,6 +35,7 @@ function ReadSensor(props: any){
         setLight(-1)
         setVibration(-1)
         setpH(-1)
+        console.log("rerererere")
     }
 
     const notFoundUI = <div className="flex w-full items-center justify-center"><p className="text-xs font-light text-black">กระถางนี้ไม่มีในระบบ</p></div>;
@@ -79,11 +81,11 @@ function ReadSensor(props: any){
 
     // FILL CODE INSIDE THE RETURN STATEMENT
     return (<>
-        <div className="w-80 h-35 flex flex-col bg-white rounded-lg opacity-60 mb-5 shadow-md mt-10">
+        <div className="w-80 h-fit flex flex-col bg-white rounded-lg opacity-60 mb-5 shadow-md mt-10">
             {/* <p className="text-xs text-black mx-1 my-1">Hi, I'm Sensor Reader!</p> */}
             <div className="flex flex-row w-80 mb-3 items-center justify-center gap-5 my-3">
                 <p className=" text-black text-xs w-35 mb-1">รหัสของอุปกรณ์</p>
-                <input value={searchQuery} onChange={event => setSearchQuery(event.target.value)} className="rounded-full shadow-md py-4 px-3 ps-10 w-45 h-4 text-xs text-black" type="text" placeholder="device ID"/>
+                <input value={searchID} onChange={event => setSearchID(event.target.value)} className="rounded-full shadow-md py-4 px-3 ps-10 w-45 h-4 text-xs text-black" type="text" placeholder="device ID"/>
             </div>
             {(loading) ? infoUI : null}
             <div className="w-80 mb-3 flex justify-end gap-3">
