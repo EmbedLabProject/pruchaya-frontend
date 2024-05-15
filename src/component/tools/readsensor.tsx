@@ -5,7 +5,6 @@ import { BeakerIcon } from "@heroicons/react/16/solid";
 import { SunIcon } from "@heroicons/react/16/solid";
 import { InformationCircleIcon } from "@heroicons/react/16/solid";
 import { ShieldExclamationIcon } from "@heroicons/react/16/solid";
-import WaterMeter from './WaterMeter';
 function ReadSensor(props: any){
 
     const [searchQuery, setSearchQuery] = useState("")
@@ -20,7 +19,7 @@ function ReadSensor(props: any){
     function submitID(){
         setLoading(true)
         setDate("1/1/2567")
-        setTime("")
+        setTime("09:47")
         setHumidity(10)
         setLight(20)
         setVibration(19)
@@ -37,7 +36,7 @@ function ReadSensor(props: any){
         setpH(-1)
     }
 
-    const notFoundUI = <div className="flex w-full items-center justify-center"><p className="text-xs font-light text-black">พืชนี้ไม่มีในระบบ</p></div>;
+    const notFoundUI = <div className="flex w-full items-center justify-center"><p className="text-xs font-light text-black">กระถางนี้ไม่มีในระบบ</p></div>;
     const skeletonUI = <><p className="flex flex-row w-full h-16 bg-white rounded-lg items-center justify-center p-2 gap-3 animate-pulse">
         <p className="text-xs text-gray-400">กำลังโหลด...</p>
         </p></>;
@@ -61,8 +60,8 @@ function ReadSensor(props: any){
         </div>
     const infoUI = <section className="bg-white items-center justify-center mx-5 my-5 gap-5">
         <h1 className="text-sm font-bold text-left text-black">
-            
-            {(!loading && (date =="" || time == "")) ? notFoundUI : <div> วันที่วัดค่า: {date} {time} </div>}
+            วันที่วัดค่า: {date} {time}
+            {(!loading && (date =="" || time == "")) ? notFoundUI : null}
             {(loading) ? skeletonUI : null}
         </h1>
         <article>
@@ -81,8 +80,8 @@ function ReadSensor(props: any){
     // FILL CODE INSIDE THE RETURN STATEMENT
     return (<>
         <div className="w-80 h-35 flex flex-col bg-white rounded-lg opacity-60 mb-5 shadow-md mt-10">
-            {/* <p className="text-xs text-black">Hi, I'm Sensor Reader!</p> */}
-            <div className="flex flex-row w-80 mb-3 items-center justify-center gap-5">
+            {/* <p className="text-xs text-black mx-1 my-1">Hi, I'm Sensor Reader!</p> */}
+            <div className="flex flex-row w-80 mb-3 items-center justify-center gap-5 my-3">
                 <p className=" text-black text-xs w-35 mb-1">รหัสของอุปกรณ์</p>
                 <input value={searchQuery} onChange={event => setSearchQuery(event.target.value)} className="rounded-full shadow-md py-4 px-3 ps-10 w-45 h-4 text-xs text-black" type="text" placeholder="device ID"/>
             </div>
