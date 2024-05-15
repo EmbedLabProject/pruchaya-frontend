@@ -45,7 +45,7 @@ export default function Home() {
   const [withered, setWithered] = useState(false);
   const [obstructed, setObstructed] = useState(false);
 
-  function addConstraint(name: string, constraint: any){
+  function addConstraint(name: string, constraint: any){  
     const temp = {"name": name, "function": constraint}
     setSearchConstraint([...searchConstraint, temp]);
   }
