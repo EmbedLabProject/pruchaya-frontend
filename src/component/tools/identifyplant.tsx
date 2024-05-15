@@ -61,11 +61,11 @@ function IdentifyPlant(props: any){
                 </button>
             </ul>
             {(loading) ? infoUI : null}
-            <div className="w-80 mb-3 flex justify-end -mx-5 my-2 gap-3">
-                <button onClick={() => submitImage()} className={"bg-white text-black grid items-center justify-center rounded-lg shadow-md w-12 h-6"}>
+            <div className="w-80 mb-3 flex justify-end gap-3">
+                <button onClick={() => submitImage()} className={"bg-white text-black grid items-center justify-center rounded-lg shadow-md w-12 h-6 "}>
                     <MagnifyingGlassIcon className="w-6 h-6 "/>
                 </button>
-                <button onClick={() => reloadImage()} className={"bg-white text-black grid items-center justify-center rounded-lg shadow-md w-12 h-6"}>
+                <button onClick={() => reloadImage()} className={"bg-white text-black grid items-center justify-center rounded-lg shadow-md w-12 h-6 mx-3"}>
                     <ArrowPathIcon className="w-6 h-6"/>
                 </button>
             </div>
