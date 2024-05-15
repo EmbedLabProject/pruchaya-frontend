@@ -8,7 +8,9 @@ function IdentifyPlant(props: any){
 
     const [awating, setAwaiting] = useState(true)
     const [loading, setLoading] = useState(false)
-    const [list, setList] = useState<any[]>([]);
+    const [showing, setshowing] = useState(false)
+    const [name, setName] = useState("");
+    const [detail, setDetail] = useState("");
 
     function handleFile(){
         <form action="/action_page.php">
@@ -20,24 +22,29 @@ function IdentifyPlant(props: any){
     function submitImage(){
         setAwaiting(false)
         setLoading(true)
+        setshowing(false)
     }
 
     function reloadImage(){
         setAwaiting(true)
         setLoading(false)
+        setshowing(false)
     }
+    
     const notFoundUI = <div className="flex w-full items-center justify-center"><p className="text-xs font-light text-black">พืชนี้ไม่มีในระบบ</p></div>;
     const skeletonUI = <><p className="flex flex-row w-full h-16 bg-white rounded-lg items-center justify-center p-2 gap-3 animate-pulse">
         <p className="text-xs text-gray-400">กำลังโหลด...</p>
         </p></>;
     const infoUI = <section className="bg-white items-center justify-center mx-5 my-5 gap-5">
         <h1 className="text-sm font-bold text-left text-black">
-            ชื่อทางวิทยาศาสตร์: 
+            ชื่อทางวิทยาศาสตร์: {name}
+            {(!loading && (name=="")) ? notFoundUI : null}
             {(loading) ? skeletonUI : null}
         </h1>
         <article>
             <h2 className="text-sm font-bold text-left text-black">
-                คำอธิบาย: 
+                คำอธิบาย: {detail}
+                {(!loading && (detail=="")) ? notFoundUI : null}
                 {(loading) ? skeletonUI : null}
             </h2>
         </article>
@@ -69,8 +76,6 @@ function IdentifyPlant(props: any){
                     <ArrowPathIcon className="w-6 h-6"/>
                 </button>
             </div>
-            
-
             {(!loading && !awating) ? notFoundUI : null}
             
         </div>
