@@ -17,6 +17,10 @@ function ReadSensor(props: any){
     const [light,setLight] = useState(-1)
     const [vibration,setVibration] = useState(-1)
     const [pH,setpH] = useState(-1)
+    const [recHumidity,setRecHumidity] = useState(75)
+    const [recLight,setRecLight] = useState(0)
+    const [recVibration,setRecVibration] = useState(0)
+    const [recPH,setRecPH] = useState(7)
 
     function submitID(){
         setAwaiting(false)
@@ -28,7 +32,7 @@ function ReadSensor(props: any){
         setHumidity(10)
         setLight(20)
         setVibration(19)
-        setpH(8)
+        setpH(2)
     }
 
     function reloadID(){
@@ -44,6 +48,23 @@ function ReadSensor(props: any){
         console.log("rerererere")
     }
 
+    function getColorPH( ph:number){
+        if (ph < 7) {
+            // Acidic range: red to yellow
+            const red = 255;
+            const green = Math.round((ph / 7) * 255);
+            return `rgb(${red},${green},0)`;
+        } else if (ph === 7) {
+            // Neutral: green
+            return 'rgb(0,255,0)';
+        } else {
+            // Basic range: blue to purple
+            const blue = 255;
+            const red = Math.round(((ph - 7) / 7) * 255);
+            return `rgb(${red},0,${blue})`;
+        }
+    };
+
     const notFoundUI = <div className="flex w-full items-center justify-center"><p className="text-xs font-light text-black">กระถางนี้ไม่มีในระบบ</p></div>;
     const skeletonUI = <><p className="flex flex-row w-full h-16 bg-white rounded-lg items-center justify-center p-2 gap-3 animate-pulse">
         <p className="text-xs text-gray-400">กำลังโหลด...</p>
@@ -51,12 +72,15 @@ function ReadSensor(props: any){
     const waterUI = 
         <div className="flex flex-row w-full h-16 items-center justify-start p-2">                
             <div className="flex items-center space-x-3">
-                <div className="w-5 h-5 rounded-full bg-blue-800 grid place-content-center">
+                <div className="w-6 h-6 rounded-full bg-blue-800 grid place-content-center">
                     <BeakerIcon className="w-4 h-4 text-white" />
+                    {/* <SunIcon className="w-4 h-4 text-white"/> */}
+                    {/* <ShieldExclamationIcon className="w-4 h-4 text-white"/> */}
+                    {/* <div className="text-xs text-white">pH</div> */}
                 </div>
-                <div className="relative w-52 h-4 bg-gray-200 rounded-full overflow-hidden">
+                <div className="relative w-52 h-5 bg-gray-200 rounded-full overflow-hidden">
                     <div className="h-full bg-blue-800" style={{ width: `${humidity}%` }}></div>
-                    <div className="absolute top-0 bottom-0 w-1 bg-green-500" style={{ left: `${75}%` }}></div>
+                    <div className="absolute top-0 bottom-0 w-1 bg-green-500" style={{ left: `${recHumidity}%` }}></div>
                 </div>
                 {/* <span className="text-blue-800 text-xl">{humidity}%</span> */}
                 <div className="flex flex-col items-start">
@@ -66,6 +90,34 @@ function ReadSensor(props: any){
                 </div>
             </div>
         </div>
+    
+    const pHMeterUI =
+        <div className="flex flex-row w-full h-16 items-center justify-start p-2">                
+            <div className="flex items-center space-x-3">
+                <div className="w-6 h-6 rounded-full bg-blue-800 grid place-content-center">
+                    <div className="text-xs text-white">pH</div>
+                </div>
+                <div className="relative w-52 h-5 bg-gray-200 rounded-full overflow-hidden">
+                    <div
+                    className="h-full transition-all duration-300 ease-in-out"
+                    style={{ width: `${(pH / 14) * 100}%`, backgroundColor: getColorPH(pH) }}
+                    ></div>
+                    <div
+                    className="absolute top-0 bottom-0 w-1 bg-red-500"
+                    style={{ left: `${(recPH / 14) * 100}%` }}
+                    ></div>
+                </div>
+                <div className="flex flex-col items-start">
+                    <button className="">
+                        <InformationCircleIcon className="w-4 h-4 text-blue-800"/>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+
+        
+        
     const infoUI = <section className="bg-white items-center justify-center mx-5 my-5 gap-5">
         <h1 className="text-sm font-bold text-left text-black">
             วันที่วัดค่า: {date} {time}
@@ -75,10 +127,12 @@ function ReadSensor(props: any){
         <article>
             <h2 className="text-sm font-bold text-left text-black">
                 สถานะต้นไม้: 
-                {(!loading && (humidity==-1 || light==-1 || vibration==-1 || pH==-1)) ? notFoundUI : waterUI}
+                {(!loading && (humidity==-1 || light==-1 || vibration==-1 || pH==-1)) ? (notFoundUI) : [waterUI, pHMeterUI]}
                 {(loading) ? skeletonUI : null}
             </h2>
-            waterUI
+            
+            
+        
         </article>
         
     </section>
