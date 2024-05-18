@@ -13,3 +13,36 @@ export async function getProblems(){
     console.log(results);
     return results;
 }
+
+export async function setProbStatus(ticket_id: string, status: string){
+  await fetch(`${BACKEND_URL}/problems/setStatus`, {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json",
+  },
+  body: JSON.stringify({ticket_id: ticket_id, status: status}),
+  });
+}
+
+export async function getProbStatus(ticket_id: string){
+  const result = await fetch(`${BACKEND_URL}/problems/getStatus`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ticket_id: ticket_id}),
+  }).then(r => (r.json()));
+  return result;
+}
+
+
+export async function sendPrompt(prompt: string){
+  await fetch(`${BACKEND_URL}/chatbot/`, {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json",
+  },
+  body: JSON.stringify({prompt: prompt}),
+  });
+}
+

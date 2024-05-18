@@ -54,21 +54,21 @@ function IdentifyPlant(props: any){
     // FILL CODE INSIDE THE RETURN STATEMENT
     return (<>
 
-        <div className="w-80 h-fit bg-white rounded-lg opacity-60 mb-5 shadow-md"> 
+        <div className="w-80 h-fit bg-white rounded-lg bg-opacity-60 mb-5 shadow-md"> 
             <p className="text-xs text-black mx-1 my-1">กรุณาใส่ไฟล์ภาพต้นไม้ที่สนใจ   </p>
             <ul className="list-none mx-5 my-1 flex flex-col sm:flex-row items-center gap-5 content-stretch">
-                <button onClick={() => handleFile()} id="first-picture" className={"flex flex-row items-center justify-center gap-3 w-20 h-20 bg-neutral-200 rounded-lg opacity-80"}>
+                <button onClick={() => handleFile()} id="first-picture" className={"flex flex-row items-center justify-center gap-3 w-20 h-20 bg-neutral-200 rounded-lg opacity-80 shadow-md"}>
                     <ArrowUpTrayIcon className="w-8 h-8"/>
                 </button>
-                <button onClick={() => handleFile()} id="second-picture" className={"flex flex-row text-black items-center justify-center gap-3 w-20 h-20 bg-neutral-200 rounded-lg opacity-80"}>
+                <button onClick={() => handleFile()} id="second-picture" className={"flex flex-row text-black items-center justify-center gap-3 w-20 h-20 bg-neutral-200 rounded-lg opacity-80 shadow-md"}>
                     <ArrowUpTrayIcon className="w-8 h-8"/>
                 </button>
-                <button onClick={() => handleFile()} id="-picture" className={"flex flex-row items-center justify-center gap-3 w-20 h-20 bg-neutral-200 rounded-lg opacity-80"}>
+                <button onClick={() => handleFile()} id="-picture" className={"flex flex-row items-center justify-center gap-3 w-20 h-20 bg-neutral-200 rounded-lg opacity-80 shadow-md"}>
                     <ArrowUpTrayIcon className="w-8 h-8"/>
                 </button>
             </ul>
             {(loading) ? infoUI : null}
-            <div className="w-80 mb-3 flex justify-end gap-3 mt-1   ">
+            <div className="w-80 mb-3 mt-5 flex justify-end gap-3 mt-1   ">
                 <button onClick={() => submitImage()} className={"bg-white text-black grid items-center justify-center rounded-lg shadow-md w-12 h-6 "}>
                     <MagnifyingGlassIcon className="w-6 h-6 "/>
                 </button>

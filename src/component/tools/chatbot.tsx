@@ -21,16 +21,29 @@ function ChatBot(props: any){
     // FILL CODE INSIDE THE RETURN STATEMENT
     return (<>
 
-        <div className="w-80 h-fit bg-white rounded-lg opacity-60 mb-5 gap-2">
-            <div className="w-80 h-60 flex flex-row"></div>
-            <section className="w-60 gap-3 mx-1 my-1">
-                <div className="flex w-72 flex-wrap gap-1 justify-end">
-                    <FAQsButton setText={setSearchText} text={searchText} name="วิธีการตัดแต่ง"/>
-                    <FAQsButton setText={setSearchText} text={searchText} name="ดูแลยังไง"/>
-                    <FAQsButton setText={setSearchText} text={searchText} name="รดน้ำยังไง"/>
-                    <FAQsButton setText={setSearchText} text={searchText} name="ดินเป็นกรด"/>
-                    <FAQsButton setText={setSearchText} text={searchText} name="ดินเป็นด่าง"/>
-                    <FAQsButton setText={setSearchText} text={searchText} name="วิธีการปลูก"/>
+        <div className="w-80 h-fit bg-white rounded-lg bg-opacity-60 mb-5 gap-2">
+            <div className="p-4 w-80 h-60 flex flex-col gap-1">
+                <div className="w-full flex items-start justify-end">
+                    <div className="flex flex-col items-end gap-1 w-60 flex-wrap">
+                    
+                    </div>
+                    
+                </div>
+                <div className="w-full flex items-start justify-start">
+                    <p className="text-sm">สวัสดี</p>
+                </div>
+
+            </div>
+            <section className="flex flex-col w-80 gap-2 mx-1 my-1">
+                <div className="flex w-80 flex-wrap items-center justify-center">
+                    <div className="flex flex-wrap w-60 gap-1">
+                        <FAQsButton setText={setSearchText} text={searchText} name="วิธีการตัดแต่ง"/>
+                        <FAQsButton setText={setSearchText} text={searchText} name="ดูแลยังไง"/>
+                        <FAQsButton setText={setSearchText} text={searchText} name="รดน้ำยังไง"/>
+                        <FAQsButton setText={setSearchText} text={searchText} name="ดินเป็นกรด"/>
+                        <FAQsButton setText={setSearchText} text={searchText} name="ดินเป็นด่าง"/>
+                        <FAQsButton setText={setSearchText} text={searchText} name="วิธีการปลูก"/>
+                    </div>
                 </div>
                 <div className="flex flex-row w-80 mb-3 items-center justify-center content-center inset-y-0 place-items-end">
                     <div className="relative mt-1">
