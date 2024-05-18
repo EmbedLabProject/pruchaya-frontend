@@ -138,14 +138,14 @@ const vibrationUI =
 
         
         
-    const infoUI = <section className="bg-white items-center justify-center mx-5 my-5 gap-5">
-        <h1 className="text-sm font-bold text-left text-black">
+    const infoUI = <section className="items-center justify-center mx-5 my-5 gap-5">
+        <h1 className="text-sm font-light text-left text-black">
             วันที่วัดค่า: {date} {time}
             {(!loading && (date =="" || time == "")) ? notFoundUI : null}
             {(loading) ? skeletonUI : null}
         </h1>
         <article>
-            <h2 className="text-sm font-bold text-left text-black">
+            <h2 className="text-sm font-light text-left text-black">
                 สถานะต้นไม้: 
                 {(!loading && (humidity==-1 || light==-1 || vibration==-1)) ? (notFoundUI) : [waterUI, lightUI,vibrationUI]}
                 {(loading) ? skeletonUI : null}
@@ -161,7 +161,7 @@ const vibrationUI =
 
     // FILL CODE INSIDE THE RETURN STATEMENT
     return (<>
-        <div className="w-80 h-fit flex flex-col bg-white rounded-lg opacity-60 mb-5 shadow-md mt-10">
+        <div className="w-80 h-fit flex flex-col bg-white rounded-lg bg-opacity-60 mb-5 shadow-md mt-10">
             {/* <p className="text-xs text-black mx-1 my-1">Hi, I'm Sensor Reader!</p> */}
             <div className="flex flex-row w-80 mb-3 items-center justify-center gap-5 my-3">
                 <p className=" text-black text-xs w-35 mb-1">รหัสของอุปกรณ์</p>

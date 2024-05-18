@@ -5,6 +5,7 @@ let userLatitude = 0;
 let userLongitude = 0;
 let currentProblemId = "";
 let expertMode = false;
+let solving = "";
 
 
 
@@ -37,6 +38,14 @@ export function getUserLat(){
 
 export function getUserLong(){
     return userLongitude;
+}
+
+export function getSolving(){
+    return solving;
+}
+
+export function setSolving(ticket_id: string){
+    solving = ticket_id;
 }
 
 
