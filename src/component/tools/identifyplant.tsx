@@ -70,7 +70,7 @@ function IdentifyPlant(props: any){
                 </button>
             </ul>
             {(loading) ? infoUI : null}
-            <div className="w-80 mb-3 mt-5 flex justify-end gap-3 mt-1   ">
+            <div className="w-80 mb-3 flex justify-end gap-3 mt-1">
                 <button onClick={() => submitImage()} className={"bg-white text-black grid items-center justify-center rounded-lg shadow-md w-12 h-6 "}>
                     <MagnifyingGlassIcon className="w-6 h-6 "/>
                 </button>
