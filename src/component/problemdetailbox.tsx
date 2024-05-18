@@ -1,9 +1,13 @@
-import { distFromUser, getProblemById } from "@/script/main";
+import { distFromUser, getProblemById, getSolving, setSolving } from "@/script/main";
 import Image from 'next/image'
+import {getProbStatus, setProbStatus} from "@/script/api";
 
 import { useEffect, useState } from "react";
 
 function ProblemDetailBox(props: any){
+
+
+    
 
     const {problem} = props;
 
@@ -19,6 +23,35 @@ function ProblemDetailBox(props: any){
         }
         getData();
     },[problem]);
+
+    async function startSolveHandler(){
+        const probStatus = await getProbStatus(currentProb.ticket_id);
+        if (probStatus.status == "ongoing"){
+            await setProbStatus(currentProb.ticket_id, "processing");
+            setSolving(currentProb.ticket_id);
+        }
+        else if (probStatus.status == "solved"){
+            alert("ปัญหานี้กำลังถูกแก้ไข");
+        }
+        else if (probStatus.status == "processing"){
+            if (getSolving() == currentProb.ticket_id){
+                alert("ท่านกำลังแก้ไขปัญหานี้อยู่");
+            }
+            else {
+                alert("ปัญหานี้กำลังถูกแก้ไขโดยผู้ใช้อื่น");
+            }
+        }
+    }
+
+    async function finishSolveHandler(){
+        const probStatus = await getProbStatus(currentProb.ticket_id);
+        if (probStatus.status == "ongoing"){
+            await setProbStatus(currentProb.ticket_id, "processing");
+        }
+    }
+
+
+
     
     
     const d = distFromUser(currentProb.lat, currentProb.long).toFixed(2);
@@ -60,12 +93,12 @@ function ProblemDetailBox(props: any){
     </div>
 
     <div className="mt-5 flex flex-row items-center justify-center w-full gap-2">
-        <div className="flex flex-row items-center justify-center w-fit h-fit px-3 py-1 bg-white rounded-full shadow-md text-black">
+        <button onClick={() => startSolveHandler()} className="flex flex-row items-center justify-center w-fit h-fit px-3 py-1 bg-white rounded-full shadow-md text-black">
         <p className="font-light text-sm">เริ่มแก้ไข</p>
-        </div>
-        <div className="flex flex-row items-center justify-center w-fit h-fit px-3 py-1 bg-white rounded-full shadow-md text-black">
+        </button>
+        <button onClick={() => finishSolveHandler()} className="flex flex-row items-center justify-center w-fit h-fit px-3 py-1 bg-white rounded-full shadow-md text-black">
         <p className="font-light text-sm">แก้ไขเรียบร้อย</p>
-        </div>
+        </button>
     </div></>;
 
     return (
