@@ -3,21 +3,31 @@ import { sendPrompt } from "@/script/api";
 import { ArrowUpTrayIcon } from "@heroicons/react/16/solid";
 import { ArrowPathIcon } from "@heroicons/react/16/solid";
 import { MagnifyingGlassIcon } from "@heroicons/react/16/solid";
-import { useState } from "react";
+import React ,{ useState } from "react";
 
 function IdentifyPlant(props: any){
 
     const [awating, setAwaiting] = useState(true)
     const [loading, setLoading] = useState(false)
     const [showing, setshowing] = useState(false)
+    const [imageUrls, setImageUrls] = useState<string[]>(['', '', '']);
+    const [names, setNames] = useState(["", "", ""]);
     const [name, setName] = useState("");
     const [detail, setDetail] = useState("");
 
-    function handleFile(){
-        <form action="/action_page.php">
-            <input type="file" id="myFile" name="filename"></input>
-            <input type="submit"></input>
-        </form>
+    function handleFile(index: number) {
+        const input = document.getElementById(`image${index}`) as HTMLInputElement;
+        input.click(); // Trigger file input click event
+    }
+
+    function handleChange(event: React.ChangeEvent<HTMLInputElement>, index: number) {
+        const file = event.target.files && event.target.files[0];
+        if (file) {
+            const imageUrl = URL.createObjectURL(file); // Create URL for the selected image
+            const newUrls = [...imageUrls];
+            newUrls[index - 1] = imageUrl;
+            setImageUrls(newUrls);
+        }
     }
     
     function submitImage(){
@@ -25,12 +35,14 @@ function IdentifyPlant(props: any){
         setLoading(true)
         setshowing(false)
         sendPrompt(name)
+        // console.log(imageUrls)
     }
 
     function reloadImage(){
         setAwaiting(true)
         setLoading(false)
         setshowing(false)
+        setImageUrls(['','',''])
     }
     
     const notFoundUI = <div className="flex w-full items-center justify-center"><p className="text-xs font-light text-black">พืชนี้ไม่มีในระบบ</p></div>;
@@ -59,15 +71,25 @@ function IdentifyPlant(props: any){
         <div className="w-80 h-fit bg-white rounded-lg bg-opacity-60 mb-5 shadow-md"> 
             <p className="text-xs text-black mx-1 my-1">กรุณาใส่ไฟล์ภาพต้นไม้ที่สนใจ   </p>
             <ul className="list-none mx-5 my-1 flex flex-col sm:flex-row items-center gap-5 content-stretch">
-                <button onClick={() => handleFile()} id="first-picture" className={"flex flex-row items-center justify-center gap-3 w-20 h-20 bg-neutral-200 rounded-lg opacity-80 shadow-md"}>
-                    <ArrowUpTrayIcon className="w-8 h-8"/>
-                </button>
-                <button onClick={() => handleFile()} id="second-picture" className={"flex flex-row text-black items-center justify-center gap-3 w-20 h-20 bg-neutral-200 rounded-lg opacity-80 shadow-md"}>
-                    <ArrowUpTrayIcon className="w-8 h-8"/>
-                </button>
-                <button onClick={() => handleFile()} id="-picture" className={"flex flex-row items-center justify-center gap-3 w-20 h-20 bg-neutral-200 rounded-lg opacity-80 shadow-md"}>
-                    <ArrowUpTrayIcon className="w-8 h-8"/>
-                </button>
+                {[1, 2, 3].map(index => (
+                    <React.Fragment key={index}>
+                        <input
+                            type="file"
+                            id={`image${index}`}
+                            name={`image${index}`}
+                            accept="image/*"
+                            className="hidden"
+                            onChange={(event) => handleChange(event, index)}
+                        />
+                        <button onClick={() => handleFile(index)} className="flex flex-row items-center justify-center gap-3 w-20 h-20 bg-neutral-200 rounded-lg opacity-80 shadow-md">
+                            {imageUrls[index - 1] ? ( // Check if image URL exists
+                                <img src={imageUrls[index - 1]} alt={`Image ${index}`} className="w-full h-full object-cover" />
+                            ) : (
+                                <ArrowUpTrayIcon className="w-8 h-8"/>
+                            )}
+                        </button>
+                    </React.Fragment>
+                ))}
             </ul>
             {(loading) ? infoUI : null}
             <div className="w-80 mb-3 flex justify-end gap-3 mt-1">
