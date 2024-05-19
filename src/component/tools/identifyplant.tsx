@@ -3,6 +3,7 @@ import { sendPrompt } from "@/script/api";
 import { ArrowUpTrayIcon } from "@heroicons/react/16/solid";
 import { ArrowPathIcon } from "@heroicons/react/16/solid";
 import { MagnifyingGlassIcon } from "@heroicons/react/16/solid";
+import { fork } from "child_process";
 import React ,{ useState } from "react";
 
 function IdentifyPlant(props: any){
@@ -36,6 +37,7 @@ function IdentifyPlant(props: any){
         setshowing(false)
         sendPrompt(name)
         // console.log(imageUrls)
+        formatText()
     }
 
     function reloadImage(){
@@ -44,6 +46,26 @@ function IdentifyPlant(props: any){
         setshowing(false)
         setImageUrls(['','',''])
     }
+
+    function formatText(){
+        let formattedText = detail.replace(/\*\*(.*?)\*\*/g, '<b>$1</b>');
+
+        const lines = formattedText.split('\n');
+
+        const formattedLines = lines.map(line => {
+            if (line.startsWith('* ')) {
+                return '<li>' + line.substring(2) + '</li>';
+            } else {
+                return '<p>' + line + '</p>';
+            }
+        });
+
+        formattedText = formattedLines.join('');
+
+        formattedText = formattedText.replace(/(<li>.*?<\/li>)/gs, '<ul>$1</ul>');
+
+        setDetail(formattedText)
+    };
     
     const notFoundUI = <div className="flex w-full items-center justify-center"><p className="text-xs font-light text-black">พืชนี้ไม่มีในระบบ</p></div>;
     const skeletonUI = <><p className="flex flex-row w-full h-16 bg-white rounded-lg items-center justify-center p-2 gap-3 animate-pulse">
