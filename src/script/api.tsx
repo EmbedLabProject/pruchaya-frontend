@@ -35,7 +35,7 @@ export async function getProbStatus(ticket_id: string){
   return result;
 }
 
-export async function getSpecies(image:(File|null)[]) {
+export async function getSpecies(image:File[]) {
   const result = await fetch(`${BACKEND_URL}/plant/getSpecies`, {
     method: "POST",
     headers: {

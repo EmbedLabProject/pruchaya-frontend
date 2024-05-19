@@ -101,7 +101,7 @@ function IdentifyPlant(props: any){
     return (<>
 
         <div className="w-80 h-fit bg-white rounded-lg bg-opacity-60 mb-5 shadow-md"> 
-            <p className="text-xs text-black mx-1 my-1">กรุณาใส่ไฟล์ภาพต้นไม้ที่สนใจ   </p>
+            <p className="text-xs text-black mx-1 my-1">กรุณาใส่ไฟล์ภาพต้นไม้ที่สนใจ</p>
             <ul className="list-none mx-5 my-1 flex flex-col sm:flex-row items-center gap-5 content-stretch">
                 {[1, 2, 3].map(index => (
                     <React.Fragment key={index}>
