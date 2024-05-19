@@ -1,5 +1,5 @@
 
-import { sendPrompt } from "@/script/api";
+import { getSpecies, sendPrompt } from "@/script/api";
 import { ArrowUpTrayIcon } from "@heroicons/react/16/solid";
 import { ArrowPathIcon } from "@heroicons/react/16/solid";
 import { MagnifyingGlassIcon } from "@heroicons/react/16/solid";
@@ -11,9 +11,9 @@ function IdentifyPlant(props: any){
     const [awating, setAwaiting] = useState(true)
     const [loading, setLoading] = useState(false)
     const [showing, setshowing] = useState(false)
+    const [imageFiles, setImageFiles] = useState<(File|null)[]>([null, null, null]);
     const [imageUrls, setImageUrls] = useState<string[]>(['', '', '']);
-    const [names, setNames] = useState(["", "", ""]);
-    const [name, setName] = useState("");
+    const [scientificName, setScientificName] = useState("");
     const [detail, setDetail] = useState("");
 
     function handleFile(index: number) {
@@ -24,10 +24,17 @@ function IdentifyPlant(props: any){
     function handleChange(event: React.ChangeEvent<HTMLInputElement>, index: number) {
         const file = event.target.files && event.target.files[0];
         if (file) {
-            const imageUrl = URL.createObjectURL(file); // Create URL for the selected image
-            const newUrls = [...imageUrls];
-            newUrls[index - 1] = imageUrl;
-            setImageUrls(newUrls);
+            const reader = new FileReader();
+            reader.onload = () => {
+                const imageUrl = reader.result as string;
+                const newUrls = [...imageUrls];
+                const newFiles = [...imageFiles];
+                newUrls[index - 1] = imageUrl;
+                newFiles[index - 1] = file;
+                setImageUrls(newUrls);
+                setImageFiles(newFiles);
+            };
+            reader.readAsDataURL(file);
         }
     }
     
@@ -35,8 +42,9 @@ function IdentifyPlant(props: any){
         setAwaiting(false)
         setLoading(true)
         setshowing(false)
-        sendPrompt(name)
-        // console.log(imageUrls)
+        setScientificName(imageFiles)
+        sendPrompt(scientificName)
+        console.log(imageUrls)
         formatText()
     }
 
@@ -44,7 +52,9 @@ function IdentifyPlant(props: any){
         setAwaiting(true)
         setLoading(false)
         setshowing(false)
-        setImageUrls(['','',''])
+        setImageFiles([null, null, null]);
+        setImageUrls(['', '', '']);
+        setScientificName('')
     }
 
     function formatText(){
@@ -73,8 +83,8 @@ function IdentifyPlant(props: any){
         </p></>;
     const infoUI = <section className="bg-white items-center justify-center mx-5 my-5 gap-5">
         <h1 className="text-sm font-bold text-left text-black">
-            ชื่อทางวิทยาศาสตร์: {name}
-            {(!loading && (name=="")) ? notFoundUI : null}
+            ชื่อทางวิทยาศาสตร์: {scientificName}
+            {(!loading && (scientificName=="")) ? notFoundUI : null}
             {(loading) ? skeletonUI : null}
         </h1>
         <article>
@@ -104,10 +114,10 @@ function IdentifyPlant(props: any){
                             onChange={(event) => handleChange(event, index)}
                         />
                         <button onClick={() => handleFile(index)} className="flex flex-row items-center justify-center gap-3 w-20 h-20 bg-neutral-200 rounded-lg opacity-80 shadow-md">
-                            {imageUrls[index - 1] ? ( // Check if image URL exists
+                            {imageUrls[index - 1] ? (
                                 <img src={imageUrls[index - 1]} alt={`Image ${index}`} className="w-full h-full object-cover" />
                             ) : (
-                                <ArrowUpTrayIcon className="w-8 h-8"/>
+                                <ArrowUpTrayIcon className="w-8 h-8 text-gray-500" />
                             )}
                         </button>
                     </React.Fragment>

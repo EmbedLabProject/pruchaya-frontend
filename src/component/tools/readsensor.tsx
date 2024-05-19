@@ -11,6 +11,7 @@ function ReadSensor(props: any){
     const [awating, setAwaiting] = useState(true)
     const [loading, setLoading] = useState(false)
     const [showing, setshowing] = useState(false)
+    const [currentDevice, setCurrentDevice] = useState<any>({});
     const [date,setDate] = useState("")
     const [time,setTime] = useState("")
     const [humidity,setHumidity] = useState(-1)
@@ -25,6 +26,7 @@ function ReadSensor(props: any){
         setLoading(true)
         setshowing(false)
         console.log("want to know ID: " + searchID)
+        setCurrentDevice("123456")
         setDate("1/1/2567")
         setTime("09:47")
         setHumidity(10)

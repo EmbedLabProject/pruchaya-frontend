@@ -35,6 +35,16 @@ export async function getProbStatus(ticket_id: string){
   return result;
 }
 
+export async function getSpecies(image:(File|null)[]) {
+  const result = await fetch(`${BACKEND_URL}/plant/getSpecies`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({image:image}),
+  }).then(r => (r.json()));
+  return result;
+}
 
 export async function sendPrompt(prompt: string){
   await fetch(`${BACKEND_URL}/chatbot/`, {
@@ -46,3 +56,13 @@ export async function sendPrompt(prompt: string){
   });
 }
 
+export async function getSensorData(params:number) {
+  const result = await fetch(`${BACKEND_URL}/chatbot/`, {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json",
+  },
+  body: JSON.stringify({prompt: prompt}),
+  });
+  return result
+}
