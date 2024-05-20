@@ -13,7 +13,7 @@ function IdentifyPlant(props: any){
     const [showing, setshowing] = useState(false)
     const [imageFiles, setImageFiles] = useState<(File|null)[]>([null, null, null]);
     const [imageUrls, setImageUrls] = useState<string[]>(['', '', '']);
-    const [scientificName, setScientificName] = useState("");
+    const [currentPlant, setCurrentPlant] = useState<any>({});
     const [detail, setDetail] = useState("");
 
     function handleFile(index: number) {
@@ -42,8 +42,15 @@ function IdentifyPlant(props: any){
         setAwaiting(false)
         setLoading(true)
         setshowing(false)
-        setScientificName(imageFiles)
-        sendPrompt(scientificName)
+        const formData = new FormData();
+        imageFiles.forEach((file) => {
+            if (file !== null) {
+                formData.append('images', file);
+            }
+        });
+
+        setCurrentPlant(getSpecies(formData))
+        sendPrompt(currentPlant.scientificName)
         console.log(imageUrls)
         formatText()
     }
@@ -54,7 +61,7 @@ function IdentifyPlant(props: any){
         setshowing(false)
         setImageFiles([null, null, null]);
         setImageUrls(['', '', '']);
-        setScientificName('')
+        setCurrentPlant('')
     }
 
     function formatText(){
@@ -83,8 +90,8 @@ function IdentifyPlant(props: any){
         </p></>;
     const infoUI = <section className="bg-white items-center justify-center mx-5 my-5 gap-5">
         <h1 className="text-sm font-bold text-left text-black">
-            ชื่อทางวิทยาศาสตร์: {scientificName}
-            {(!loading && (scientificName=="")) ? notFoundUI : null}
+            ชื่อทางวิทยาศาสตร์: {currentPlant.scientificName}
+            {(!loading && (currentPlant.scientificName=="")) ? notFoundUI : null}
             {(loading) ? skeletonUI : null}
         </h1>
         <article>

@@ -35,13 +35,13 @@ export async function getProbStatus(ticket_id: string){
   return result;
 }
 
-export async function getSpecies(image:File[]) {
+export async function getSpecies(imageForm:FormData) {
   const result = await fetch(`${BACKEND_URL}/plant/getSpecies`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({image:image}),
+    body: JSON.stringify({imageForm:imageForm}),
   }).then(r => (r.json()));
   return result;
 }
