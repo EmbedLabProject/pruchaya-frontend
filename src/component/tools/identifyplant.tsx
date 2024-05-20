@@ -42,14 +42,7 @@ function IdentifyPlant(props: any){
         setAwaiting(false)
         setLoading(true)
         setshowing(false)
-        const formData = new FormData();
-        imageFiles.forEach((file) => {
-            if (file !== null) {
-                formData.append('images', file);
-            }
-        });
-
-        setCurrentPlant(getSpecies(formData))
+        setCurrentPlant(getSpecies(imageFiles))
         sendPrompt(currentPlant.scientificName)
         console.log(imageUrls)
         formatText()
