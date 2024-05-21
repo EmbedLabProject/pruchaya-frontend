@@ -5,9 +5,10 @@ import { BeakerIcon } from "@heroicons/react/16/solid";
 import { SunIcon } from "@heroicons/react/16/solid";
 import { InformationCircleIcon } from "@heroicons/react/16/solid";
 import { ShieldExclamationIcon } from "@heroicons/react/16/solid";
+import { getSensorData } from "@/script/api";
 function ReadSensor(props: any){
 
-    const [searchID, setSearchID] = useState("")
+    const [searchID, setSearchID] = useState(0)
     const [awating, setAwaiting] = useState(true)
     const [loading, setLoading] = useState(false)
     const [showing, setshowing] = useState(false)
@@ -26,7 +27,7 @@ function ReadSensor(props: any){
         setLoading(true)
         setshowing(false)
         console.log("want to know ID: " + searchID)
-        setCurrentDevice("123456")
+        setCurrentDevice(getSensorData(searchID))
         setDate("1/1/2567")
         setTime("09:47")
         setHumidity(10)
@@ -167,7 +168,7 @@ const vibrationUI =
             {/* <p className="text-xs text-black mx-1 my-1">Hi, I'm Sensor Reader!</p> */}
             <div className="flex flex-row w-80 mb-3 items-center justify-center gap-5 my-3">
                 <p className=" text-black text-xs w-35 mb-1">รหัสของอุปกรณ์</p>
-                <input value={searchID} onChange={event => setSearchID(event.target.value)} className="rounded-full shadow-md py-4 px-3 ps-10 w-45 h-4 text-xs text-black" type="text" placeholder="device ID"/>
+                <input value={searchID} onChange={event => setSearchID(searchID)} className="rounded-full shadow-md py-4 px-3 ps-10 w-45 h-4 text-xs text-black" type="text" placeholder="device ID"/>
             </div>
             {(loading) ? infoUI : null}
             <div className="w-80 mb-3 flex justify-end gap-3">

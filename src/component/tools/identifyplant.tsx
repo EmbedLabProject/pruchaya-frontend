@@ -18,6 +18,19 @@ function IdentifyPlant(props: any){
 
     function handleFile(index: number) {
         const input = document.getElementById(`image${index}`) as HTMLInputElement;
+        input.addEventListener('change', function(event) {
+            const file = (event.target as HTMLInputElement).files?.[0]; // Get the selected file
+    
+            // Check if the file size exceeds the limit (5 MB in this example)
+            const maxSize = 5 * 1024 * 1024; // 5 MB in bytes
+            if (file && file.size > maxSize) {
+                alert('File size exceeds the limit (5 MB). Please select a smaller file.');
+                input.value = ''; // Clear the file input
+            } else {
+                // File size is within the limit, you can proceed with handling the file
+                // For example, you can upload the file to the server or perform further processing
+            }
+        });
         input.click(); // Trigger file input click event
     }
 
@@ -40,9 +53,17 @@ function IdentifyPlant(props: any){
     
     function submitImage(){
         setAwaiting(false)
-        setLoading(true)
+        setLoading(true)    
         setshowing(false)
-        setCurrentPlant(getSpecies(imageFiles))
+        try {
+            const filesToUpload = imageFiles.filter(file => file !== null) as File[];
+            const speciesData = getSpecies(filesToUpload);
+            setCurrentPlant(speciesData);
+        } catch (error) {
+            console.error("Error identifying plant:", error);
+        } finally {
+            setLoading(false);
+        }
         sendPrompt(currentPlant.scientificName)
         console.log(imageUrls)
         formatText()

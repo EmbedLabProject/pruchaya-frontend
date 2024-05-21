@@ -1,3 +1,5 @@
+import { list } from "postcss";
+
 const BACKEND_URL = "http://localhost:3222"
 
 
@@ -36,12 +38,42 @@ export async function getProbStatus(ticket_id: string){
 }
 
 export async function getSpecies(imageFile:(File|null)[]) {
+  // const base64Strings = [];
+  let test
+  const base64Strings: string[] = [];
+  console.log(imageFile)
+  const file = imageFile[0]
+  if (file) {
+    const reader = new FileReader();
+    reader.onload = () => {
+      const base64String = reader.result as string;
+      test = {image1: base64String}
+    };
+    reader.readAsDataURL(file);
+  }
+  // imageFile.forEach((file) => {
+  //   if (file) {
+  //     const reader = new FileReader();
+  //     reader.onload = () => {
+  //       const base64String = reader.result as string;
+  //       base64Strings.push(base64String);
+  //     };
+  //     reader.readAsDataURL(file);
+      
+  //   }
+  // });
+  // console.log(base64Strings)
+  // const test1 = {image1: base64Strings[1]}
+  // console.log(["mon","book","mark","tt"])
+  console.log(JSON.stringify(test))
+  console.log(test)
+  console.log(JSON.stringify({imageString:base64Strings[0]}))
   const result = await fetch(`${BACKEND_URL}/plant/getSpecies`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({imageFile:imageFile}),
+    body: JSON.stringify({imageString:base64Strings}),  
   }).then(r => (r.json()));
   return result;
 }
