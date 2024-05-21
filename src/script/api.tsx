@@ -38,13 +38,14 @@ export async function getProbStatus(ticket_id: string){
 
 
 export async function sendPrompt(prompt: string){
-  const result =  await fetch(`${BACKEND_URL}/chatbot/`, {
-  method: "POST",
-  headers: {
-    "Content-Type": "application/json",
-  },
-  body: JSON.stringify({prompt: prompt}),
-  }).then(r => console.log(r));
-  return {};
+  const result =  await fetch(`${BACKEND_URL}/chatbot`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({prompt: prompt}),
+  }).then(r => r.json());
+  console.log(result);
+  return result;
 }
 

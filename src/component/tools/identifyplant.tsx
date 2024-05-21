@@ -23,18 +23,6 @@ function IdentifyPlant(props: any){
         setAwaiting(false)
         setLoading(true)
         setshowing(false)
-<<<<<<< Updated upstream
-||||||| Stash base
-        setCurrentPlant(getSpecies(imageFiles))
-        sendPrompt(currentPlant.scientificName)
-        console.log(imageUrls)
-        formatText()
-=======
-        setCurrentPlant(getSpecies(imageFiles))
-        sendPrompt(currentPlant.scientificName)
-        console.log(imageUrls[0])
-        formatText()
->>>>>>> Stashed changes
     }
 
     function reloadImage(){

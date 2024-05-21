@@ -2,11 +2,10 @@ import { useState } from "react";
 import { PaperAirplaneIcon } from "@heroicons/react/16/solid";
 import { ArrowPathIcon } from "@heroicons/react/16/solid";
 import FAQsButton from "./faqsbutton";
-import { appendCurrentMessages, getCurrentMessages } from "@/script/main";
+import { appendCurrentMessages, clearCurrentMessages, getCurrentMessages } from "@/script/main";
 import { sendPrompt } from "@/script/api";
 
 function ChatBot(props: any){
-    const [searchText, setSearchText] = useState("");
 
     function formatter(text: any){
         let arr = text.split("**");
@@ -45,25 +44,16 @@ function ChatBot(props: any){
         return result;
     }
 
-    function submitID(){
-        setLoading(true)
-        console.log("want to know Q: " + searchText)
-    }
-
-    function reloadID(){
-        setLoading(false)
-        setSearchText("")
-        console.log("rerererere")
-    }
+    
 
     ////
 
     const [messages, setMessages] = useState<any[]>(getCurrentMessages());
     const [userTextbox, setUserTextBox] = useState("");
-    const [showResult, setShowResult] = useState(false);
     const [loading, setLoading] = useState(false);
 
     function addMessage(sender: string, message: any, deltaId: number){
+        console.log("Sent!");
         const currentId = messages.length;
         appendCurrentMessages({id: currentId + deltaId, sender: sender, message: message });
         setMessages(m => ([...m,{id: currentId + deltaId, sender: sender, message: message }]));
@@ -72,17 +62,21 @@ function ChatBot(props: any){
     async function sentHandler(){
         if ((userTextbox.trim() != "") && (!loading)){
             setUserTextBox("");
-            addMessage("คุณ",<span>{userTextbox}</span>, 1);
             setLoading(true);
-            setShowResult(true);
+            addMessage("คุณ",<span>{userTextbox}</span>, 1);
             const gemini = await sendPrompt("สรุปสั้นให้หน่อยว่า" + userTextbox + " ขอไม่เกิน 200 คำ");
             const message = gemini.response;
             setLoading(false);
-            setShowResult(false);
             if (message.trim() != ""){
                 addMessage("Bot", formatter(message), 2);
             }
         }
+    }
+
+    function clearHandler(){
+        setLoading(false);
+        setMessages([]);
+        clearCurrentMessages();
     }
 
     const list = messages.map((m) => {
@@ -129,12 +123,12 @@ function ChatBot(props: any){
             <section className="flex flex-col w-80 gap-2 mx-1 my-1">
                 <div className="flex w-80 flex-wrap items-center justify-center">
                     <div className="flex flex-wrap w-60 gap-1">
-                        <FAQsButton setText={setSearchText} text={searchText} name="วิธีการตัดแต่ง"/>
-                        <FAQsButton setText={setSearchText} text={searchText} name="ดูแลยังไง"/>
-                        <FAQsButton setText={setSearchText} text={searchText} name="รดน้ำยังไง"/>
-                        <FAQsButton setText={setSearchText} text={searchText} name="ดินเป็นกรด"/>
-                        <FAQsButton setText={setSearchText} text={searchText} name="ดินเป็นด่าง"/>
-                        <FAQsButton setText={setSearchText} text={searchText} name="วิธีการปลูก"/>
+                        <FAQsButton setText={setUserTextBox} text={userTextbox} name="วิธีการตัดแต่ง"/>
+                        <FAQsButton setText={setUserTextBox} text={userTextbox} name="ดูแลยังไง"/>
+                        <FAQsButton setText={setUserTextBox} text={userTextbox} name="รดน้ำยังไง"/>
+                        <FAQsButton setText={setUserTextBox} text={userTextbox} name="ดินเป็นกรด"/>
+                        <FAQsButton setText={setUserTextBox} text={userTextbox} name="ดินเป็นด่าง"/>
+                        <FAQsButton setText={setUserTextBox} text={userTextbox} name="วิธีการปลูก"/>
                     </div>
                 </div>
                 <div className="flex flex-row w-80 mb-3 items-center justify-center content-center inset-y-0 place-items-end">
@@ -143,7 +137,7 @@ function ChatBot(props: any){
                         <button onClick={() => sentHandler()} className={"absolute inset-y-0 end-10 flex items-center"}>
                             <PaperAirplaneIcon className="w-4 h-4 text-black"/>
                         </button>
-                        <button onClick={() => reloadID()} className={"absolute inset-y-0 end-5 flex items-center"}>
+                        <button onClick={() => clearHandler()} className={"absolute inset-y-0 end-5 flex items-center"}>
                             <ArrowPathIcon className="w-4 h-4 text-black"/>
                         </button>
                     </div>

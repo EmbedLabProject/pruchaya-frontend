@@ -6,7 +6,7 @@ let userLongitude = 0;
 let currentProblemId = "";
 let expertMode = false;
 let solving = "";
-let message: any[] = [];
+let messages: any[] = [];
 
 
 
@@ -67,11 +67,16 @@ export function distFromUser(lat1: number, lon1: number){
 }
 
 export function appendCurrentMessages(m: any){
-    message.push(m);
+    messages = [...messages, m];
 }
 
 export function getCurrentMessages(){
-    return message;
+    
+    return messages;
+}
+
+export function clearCurrentMessages(){
+    messages = [];
 }
 
 
