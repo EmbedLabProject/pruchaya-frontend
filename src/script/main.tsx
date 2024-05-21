@@ -6,6 +6,7 @@ let userLongitude = 0;
 let currentProblemId = "";
 let expertMode = false;
 let solving = "";
+let message: any[] = [];
 
 
 
@@ -65,6 +66,14 @@ export function distFromUser(lat1: number, lon1: number){
     return calculateDist(lat1, lon1, lat2, lon2);
 }
 
+export function appendCurrentMessages(m: any){
+    message.push(m);
+}
+
+export function getCurrentMessages(){
+    return message;
+}
+
 
 
 function getLocation() {
@@ -85,3 +94,5 @@ function getLocation() {
   function error() {
     // console.log("Unable to retrieve your location");
   }
+
+
