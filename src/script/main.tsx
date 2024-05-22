@@ -1,10 +1,12 @@
-import { getProblems } from "./api";
+import { getProblems, getSensorData } from "./api";
 
 let allProblems: any[] = [];
 let userLatitude = 0;
 let userLongitude = 0;
 let currentProblemId = "";
 let expertMode = false;
+let currentSensorId = "";
+let currentSensorData: any[] = [];
 let solving = "";
 let messages: any[] = [];
 
@@ -47,6 +49,26 @@ export function getSolving(){
 
 export function setSolving(ticket_id: string){
     solving = ticket_id;
+}
+
+export function getSensorId(){
+    return currentSensorId;
+}
+
+export async function loadSensorData(device_id: string){
+    const response = await getSensorData(device_id);
+    if (response.data.length == 0){
+        currentSensorData = [];
+        currentSensorId = device_id;
+        return currentSensorData;
+    }
+    if (device_id == currentSensorId){
+        return currentSensorData;
+    }
+    
+    currentSensorData = response.data;
+    currentSensorId = device_id;
+    return currentSensorData;
 }
 
 

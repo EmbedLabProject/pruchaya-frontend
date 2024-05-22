@@ -1,13 +1,16 @@
-import { MagnifyingGlassIcon } from "@heroicons/react/16/solid";
+import { MagnifyingGlassIcon, RssIcon } from "@heroicons/react/16/solid";
 import { ArrowPathIcon } from "@heroicons/react/16/solid";
 import { useState } from "react";
 import { BeakerIcon } from "@heroicons/react/16/solid";
 import { SunIcon } from "@heroicons/react/16/solid";
 import { InformationCircleIcon } from "@heroicons/react/16/solid";
 import { ShieldExclamationIcon } from "@heroicons/react/16/solid";
+import { IoIosWater } from "react-icons/io";
+import SensorBlock from "../sensorblock";
+import { getSensorId, loadSensorData } from "@/script/main";
 function ReadSensor(props: any){
 
-    const [searchID, setSearchID] = useState("")
+    const [searchID, setSearchID] = useState(getSensorId())
     const [awating, setAwaiting] = useState(true)
     const [loading, setLoading] = useState(false)
     const [showing, setshowing] = useState(false)
@@ -19,6 +22,7 @@ function ReadSensor(props: any){
     const [recHumidity,setRecHumidity] = useState(75)
     const [recLight,setRecLight] = useState(70)
     const [recVibration,setRecVibration] = useState(60)
+
 
     function submitID(){
         setAwaiting(false)
@@ -60,6 +64,14 @@ function ReadSensor(props: any){
             return `rgb(${red},0,${blue})`;
         }
     };
+
+
+    async function getDataHandler(){
+        setLoading(true);
+        const data = await loadSensorData(searchID);
+        console.log(data);
+        setLoading(false);
+    }
 
     const notFoundUI = <div className="flex w-full items-center justify-center"><p className="text-xs font-light text-black">กระถางนี้ไม่มีในระบบ</p></div>;
     const skeletonUI = <><p className="flex flex-row w-full h-16 bg-white rounded-lg items-center justify-center p-2 gap-3 animate-pulse">
@@ -157,19 +169,38 @@ const vibrationUI =
         
     </section>
 
+
+    const loadingUI = <><div className="w-72 h-16 bg-white bg-opacity-70 rounded-lg animate-pulse"></div>
+    <div className="w-72 h-16 bg-white bg-opacity-70 rounded-lg animate-pulse"></div></>;
+
     
 
     // FILL CODE INSIDE THE RETURN STATEMENT
     return (<>
-        <div className="w-80 h-fit flex flex-col bg-white rounded-lg bg-opacity-60 mb-5 shadow-md mt-10">
+        <div className="w-80 h-fit flex flex-col bg-white rounded-lg bg-opacity-60 mb-5 shadow-md">
             {/* <p className="text-xs text-black mx-1 my-1">Hi, I'm Sensor Reader!</p> */}
             <div className="flex flex-row w-80 mb-3 items-center justify-center gap-5 my-3">
                 <p className=" text-black text-xs w-35 mb-1">รหัสของอุปกรณ์</p>
                 <input value={searchID} onChange={event => setSearchID(event.target.value)} className="rounded-full shadow-md py-4 px-3 ps-10 w-45 h-4 text-xs text-black" type="text" placeholder="device ID"/>
             </div>
-            {(loading) ? infoUI : null}
+            {/* {(loading) ? infoUI : null} */}
+            <div className="flex flex-col gap-1 items-center h-36 overflow-y-scroll">
+
+                {loading ? loadingUI : null}
+                
+
+                <SensorBlock humidPer="50" vibraPer="50" lightPer="50" date="lol" selected={false}/>
+                
+
+
+                
+
+
+
+
+            </div>
             <div className="w-80 mb-3 flex justify-end gap-3">
-                <button onClick={() => submitID()} className={"bg-white text-black grid items-center justify-center rounded-lg shadow-md w-12 h-6 "}>
+                <button onClick={() => getDataHandler()} className={"bg-white text-black grid items-center justify-center rounded-lg shadow-md w-12 h-6 "}>
                     <MagnifyingGlassIcon className="w-6 h-6 "/>
                 </button>
                 <button onClick={() => reloadID()} className={"bg-white text-black grid items-center justify-center rounded-lg shadow-md w-12 h-6 mx-3"}>
