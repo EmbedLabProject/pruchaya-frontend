@@ -57,7 +57,8 @@ function IdentifyPlant(props: any){
         setshowing(false)
         try {
             const filesToUpload = imageFiles.filter(file => file !== null) as File[];
-            const speciesData = getSpecies(filesToUpload);
+            console.log(filesToUpload)
+            const speciesData = getSpecies(imageUrls);
             setCurrentPlant(speciesData);
         } catch (error) {
             console.error("Error identifying plant:", error);

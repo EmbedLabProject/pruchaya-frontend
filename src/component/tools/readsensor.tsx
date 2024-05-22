@@ -13,34 +13,35 @@ function ReadSensor(props: any){
     const [loading, setLoading] = useState(false)
     const [showing, setshowing] = useState(false)
     const [currentDevice, setCurrentDevice] = useState<any>({});
-    const [date,setDate] = useState("")
-    const [time,setTime] = useState("")
+    const [date,setDate] = useState(new Date)
+    const [time,setTime] = useState()
     const [humidity,setHumidity] = useState(-1)
     const [light,setLight] = useState(-1)
     const [vibration,setVibration] = useState(-1)
     const [recHumidity,setRecHumidity] = useState(75)
     const [recLight,setRecLight] = useState(70)
-    const [recVibration,setRecVibration] = useState(60)
+    const [recVibration,setRecVibration] = useState(55)
 
     function submitID(){
         setAwaiting(false)
         setLoading(true)
-        setshowing(false)
+        setDate(new Date)
         console.log("want to know ID: " + searchID)
-        setCurrentDevice(getSensorData(searchID))
-        setDate("1/1/2567")
-        setTime("09:47")
+        // setCurrentDevice(getSensorData(searchID))
         setHumidity(10)
         setLight(20)
         setVibration(19)
+        // setHumidity(currentDevice.curHumidValue)
+        // setLight(currentDevice.curLightValue)
+        // setVibration(currentDevice.curVibrateValue)
+        // setLoading(false)        
+        setshowing(true)
     }
 
     function reloadID(){
         setAwaiting(true)
         setLoading(false)
         setshowing(false)
-        setDate("")
-        setTime("")
         setHumidity(-1)
         setLight(-1)
         setVibration(-1)
@@ -143,24 +144,18 @@ const vibrationUI =
         
     const infoUI = <section className="items-center justify-center mx-5 my-5 gap-5">
         <h1 className="text-sm font-light text-left text-black">
-            วันที่วัดค่า: {date} {time}
-            {(!loading && (date =="" || time == "")) ? notFoundUI : null}
+            วันที่วัดค่า: {date.getDate()} / {date.getMonth()} / {date.getFullYear()} {date.getHours()} : {date.getMinutes()}
+            {(showing) ? notFoundUI : null}
             {(loading) ? skeletonUI : null}
         </h1>
         <article>
             <h2 className="text-sm font-light text-left text-black">
                 สถานะต้นไม้: 
-                {(!loading && (humidity==-1 || light==-1 || vibration==-1)) ? (notFoundUI) : [waterUI, lightUI,vibrationUI]}
+                {(showing) ? (notFoundUI) : [waterUI, lightUI,vibrationUI]}
                 {(loading) ? skeletonUI : null}
             </h2>
-            
-            
-        
         </article>
-        
     </section>
-
-    
 
     // FILL CODE INSIDE THE RETURN STATEMENT
     return (<>
@@ -170,7 +165,7 @@ const vibrationUI =
                 <p className=" text-black text-xs w-35 mb-1">รหัสของอุปกรณ์</p>
                 <input value={searchID} onChange={event => setSearchID(searchID)} className="rounded-full shadow-md py-4 px-3 ps-10 w-45 h-4 text-xs text-black" type="text" placeholder="device ID"/>
             </div>
-            {(loading) ? infoUI : null}
+            {(!awating) ? infoUI : null}
             <div className="w-80 mb-3 flex justify-end gap-3">
                 <button onClick={() => submitID()} className={"bg-white text-black grid items-center justify-center rounded-lg shadow-md w-12 h-6 "}>
                     <MagnifyingGlassIcon className="w-6 h-6 "/>
@@ -180,12 +175,6 @@ const vibrationUI =
                 </button>
             </div>
         </div>
-        
-
-    
-
-
-        
     </>);
 
 
