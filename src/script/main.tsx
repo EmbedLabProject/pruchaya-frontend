@@ -11,7 +11,7 @@ let solving = "";
 let messages: any[] = [];
 let userSensorData: any[] = [];
 let meanSensorData: { humidity: number; light: number; vibration: number; } | null = null;
-
+let latestSensorFetch = 0;
 
 
 export async function initalize() {
@@ -58,13 +58,18 @@ export function getSensorId(){
 }
 
 export async function loadSensorData(device_id: string){
+
+    const currentTime = Math.floor(Date.now()/1000);
+    if (device_id == currentSensorId && (currentTime - latestSensorFetch < 5)){
+        return currentSensorData;
+    }
+
     const response = await getSensorData(device_id);
+    latestSensorFetch = currentTime;
+    console.log("Fetched !")
     if (response.data.length == 0){
         currentSensorData = [];
         currentSensorId = device_id;
-        return currentSensorData;
-    }
-    if (device_id == currentSensorId){
         return currentSensorData;
     }
     
@@ -86,9 +91,9 @@ export function setUserSensorData(newSensorData: any[]){
     userSensorData.forEach(i => {
         if (i.selected){
             selectedData++;
-            sumHumid += i.humidity;
-            sumLight += i.light;
-            sumVibra += i.vibration;
+            sumHumid += Number(i.humidity);
+            sumLight += Number(i.light);
+            sumVibra += Number(i.vibration);
         }
     })
     if (selectedData == 0){

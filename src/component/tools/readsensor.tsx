@@ -24,6 +24,7 @@ function ReadSensor(props: any){
     const [recVibration,setRecVibration] = useState(60)
     const [sensorData, setSensorData] = useState<any[]>(getUserSensorData())
 
+    console.log("Here")
     console.log(getMeanSensorData());
 
 
@@ -88,7 +89,7 @@ function ReadSensor(props: any){
         console.log(data);
         setLoading(false);
         const newSensorData = []
-        for (let i=1 ; i<=10; i++){
+        for (let i=1 ; i<=20; i++){
             if (i > data.length){
                 break;
             }
@@ -135,18 +136,18 @@ function ReadSensor(props: any){
 
     const meanSensorData = getMeanSensorData();
 
-    const meanSensorComp = <div className="flex flex-row gap-2">
+    const meanSensorComp = <div className="flex flex-row gap-1">
     <div className="flex flex-row gap-1 items-center justify-center">
         <SunIcon className="w-5"/>
-        <p className="text-sm font-semibold">{meanSensorData?.light}%</p>
+        <p className="text-sm font-semibold text-black">{meanSensorData?.light}%</p>
     </div>
     <div className="flex flex-row gap-1 items-center justify-center">
-        <IoIosWater  />
-        <p className="text-sm font-semibold">{meanSensorData?.humidity}%</p>
+        <IoIosWater   />
+        <p className="text-sm font-semibold text-black">{meanSensorData?.humidity}%</p>
     </div>
     <div className="flex flex-row gap-1 items-center justify-center">
         <RssIcon className="w-4"/>
-        <p className="text-sm font-semibold">{meanSensorData?.vibration}%</p>
+        <p className="text-sm font-semibold text-black">{meanSensorData?.vibration}%</p>
     </div>
     </div>;
 

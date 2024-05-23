@@ -1,4 +1,4 @@
-const BACKEND_URL = "http://localhost:3222"
+const BACKEND_URL = "https://pruchaya-api.ttontoey.com"
 
 
 export async function getProblems(){
