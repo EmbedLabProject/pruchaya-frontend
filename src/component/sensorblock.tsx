@@ -3,14 +3,14 @@ import { IoIosWater } from "react-icons/io";
 
 function SensorBlock(props: any){
 
-    const {selected, date, lightPer, humidPer, vibraPer} = props;
+    const {selected, date, lightPer, humidPer, vibraPer, onClick} = props;
 
     let button;
     if (selected){
-        button = <button className="w-fit h-fit bg-gray-600 shadow-md px-2 rounded-md text-sm text-white">เลือก</button>;
+        button = <button onClick={() => onClick()} className="w-fit h-fit bg-gray-600 shadow-md px-2 rounded-md text-sm text-white">เลือก</button>;
     }
     else {
-        button = <button className="w-fit h-fit bg-white shadow-md px-2 rounded-md text-sm text-black">เลือก</button>;
+        button = <button onClick={() => onClick()} className="w-fit h-fit bg-white shadow-md px-2 rounded-md text-sm text-black">เลือก</button>;
     }
     
     return (
