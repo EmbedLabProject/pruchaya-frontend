@@ -1,4 +1,4 @@
-import { distFromUser, getAllProblems } from "@/script/main";
+import { distFromUser, getAllProblems, setViewingProblem } from "@/script/main";
 import ProblemBox from "./problembox";
 import { useEffect, useState } from "react";
 
@@ -9,6 +9,12 @@ function ProblemContainer(props: any) {
 
     const [list, setList] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
+
+
+    function setSelectedHandler(problem: any){
+        setSelected(problem.ticket_id);
+        setViewingProblem(problem);
+    }
     
 
     
@@ -45,7 +51,7 @@ function ProblemContainer(props: any) {
                         desc = desc.substring(0, 25) + "...";
                     }
                     // let dist = distFromUser(p.lat,p.long).toFixed(2);
-                    temp.push(<ProblemBox key={p.ticket_id} name={desc} onClick={() => setSelected(p.ticket_id)}/>);
+                    temp.push(<ProblemBox key={p.ticket_id} name={desc} onClick={() => setSelectedHandler(p)}/>);
                 }
             });
             setList(temp);

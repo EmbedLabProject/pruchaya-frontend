@@ -138,15 +138,15 @@ function ReadSensor(props: any){
 
     const meanSensorComp = <div className="flex flex-row gap-1">
     <div className="flex flex-row gap-1 items-center justify-center">
-        <SunIcon className="w-5"/>
+        <SunIcon className="w-5 text-black"/>
         <p className="text-sm font-semibold text-black">{meanSensorData?.light}%</p>
     </div>
     <div className="flex flex-row gap-1 items-center justify-center">
-        <IoIosWater   />
+        <IoIosWater className="text-black"   />
         <p className="text-sm font-semibold text-black">{meanSensorData?.humidity}%</p>
     </div>
     <div className="flex flex-row gap-1 items-center justify-center">
-        <RssIcon className="w-4"/>
+        <RssIcon className="w-4 text-black"/>
         <p className="text-sm font-semibold text-black">{meanSensorData?.vibration}%</p>
     </div>
     </div>;

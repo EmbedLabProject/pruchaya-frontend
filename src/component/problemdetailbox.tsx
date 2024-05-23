@@ -92,14 +92,7 @@ function ProblemDetailBox(props: any){
     
     </div>
 
-    <div className="mt-5 flex flex-row items-center justify-center w-full gap-2">
-        <button onClick={() => startSolveHandler()} className="flex flex-row items-center justify-center w-fit h-fit px-3 py-1 bg-white rounded-full shadow-md text-black">
-        <p className="font-light text-sm">เริ่มแก้ไข</p>
-        </button>
-        <button onClick={() => finishSolveHandler()} className="flex flex-row items-center justify-center w-fit h-fit px-3 py-1 bg-white rounded-full shadow-md text-black">
-        <p className="font-light text-sm">แก้ไขเรียบร้อย</p>
-        </button>
-    </div></>;
+    </>;
 
     return (
 

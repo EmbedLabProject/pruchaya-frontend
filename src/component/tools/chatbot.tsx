@@ -2,7 +2,7 @@ import { useState } from "react";
 import { PaperAirplaneIcon } from "@heroicons/react/16/solid";
 import { ArrowPathIcon } from "@heroicons/react/16/solid";
 import FAQsButton from "./faqsbutton";
-import { appendCurrentMessages, clearCurrentMessages, getCurrentMessages } from "@/script/main";
+import { appendCurrentMessages, clearCurrentMessages, getCurrentMessages, getMeanSensorData, getViewingProblem } from "@/script/main";
 import { sendPrompt } from "@/script/api";
 
 function ChatBot(props: any){
@@ -111,6 +111,113 @@ function ChatBot(props: any){
     <div className="w-40 h-3 bg-gray-300 rounded-full"></div>
     </div>;
 
+
+    async function specialPrompt1(){
+        const meanSensorData = getMeanSensorData();
+        if (meanSensorData){
+            const meanHumid = meanSensorData.humidity;
+            const meanVibration = meanSensorData.vibration;
+            const meanLight = meanSensorData.light;
+            let humidString = "";
+            let vibraString = "";
+            let lightString = "";
+
+            if (meanHumid <= 10){
+                humidString = "แห้งมาก"
+            }
+            else if (meanHumid > 10 && meanHumid <=35){
+                humidString = "แห้ง"
+            }
+            else if (meanHumid > 35 && meanHumid <=57){
+                humidString = "ชื้นปกติ"
+            }
+            else if (meanHumid > 58 && meanHumid <=81){
+                humidString = "ชื้น"
+            }
+            else if (meanHumid > 81){
+                humidString = "ชื้นมาก" 
+            }
+
+            if (meanVibration <= 40){
+                vibraString = "ไม่สั่น"
+            }
+            else if (meanVibration > 40 && meanVibration <= 65){
+                vibraString = "สั่นเล็กน้อย เทียบเท่ากับรถยนต์วิ่งผ่าน"
+            }
+            else if (meanVibration > 65 && meanVibration <= 82){
+                vibraString = "สั่นปานกลาง"
+            }
+            else if (meanVibration > 83){
+                vibraString = "สั่นมาก"
+            }
+
+            if (meanLight <= 20){
+                lightString = "มืด"
+            }
+            else if (meanLight > 20 && meanLight <= 38){
+                lightString = "แสงน้อยมาก"
+            }
+            else if (meanLight > 38 && meanLight <= 60){
+                lightString = "แสงในร่มหรือกลางคืน"
+            }
+            else if (meanLight > 60 && meanLight <= 88){
+                lightString = "สว่าง"
+            }
+            else if (meanLight > 88){
+                lightString = "สว่างมาก อาจเกิดอาการใบไหม้"
+            }
+            setUserTextBox("");
+            setLoading(true);
+            addMessage("คุณ",<span>{"วิเคราะห์ผลการวัด"}</span>, 1);
+            const gemini = await sendPrompt("ดินที่" + humidString + "มีข้อดีข้อเสียอย่างไร ควรปลูกพืชอะไร ขอไม่เกิน 200 คำ");
+            const message = "ดินถือว่าอยู่ในระดับ**" + humidString + "** " + gemini.response + "ส่วนการวัดแสงอยู่ในระดับ**" + lightString + "** และการสั่นถือว่า**" + vibraString + "**";
+            setLoading(false);
+            if (message.trim() != ""){
+                addMessage("Bot", formatter(message)  , 2);
+            }
+        }
+        else {
+            addMessage("คุณ",<span>{"วิเคราะห์ผลการวัด"}</span>, 1);
+            addMessage("Bot",<span>{"คุณยังไม่ได้เลือกข้อมูลจากเซนเซอร์"}</span> , 2);
+        }
+        
+    }
+
+    async function specialPrompt2(){
+        
+        const viewingProb = getViewingProblem();
+        if (viewingProb){
+            setUserTextBox("");
+            setLoading(true);
+            addMessage("คุณ",<span>{"แก้ปัญหาที่เลือกอย่างไร"}</span>, 1);
+            const gemini = await sendPrompt(`มีประชาชนแจ้งปัญหามาว่่า "${viewingProb.description}" ช่วยเสนอวิธีแก้ปัญหาให้กับเจ้าหน้าที่ของกรุงเทพมหานคร ขอไม่เกิน 200 คำ`);
+            const message = gemini.response;
+            setLoading(false);
+            if (message.trim() != ""){
+                addMessage("Bot", formatter(message), 2);
+            }
+        }
+        else {
+            addMessage("คุณ",<span>{"แก้ปัญหาที่เลือกอย่างไร"}</span>, 1);
+            addMessage("Bot",<span>{"คุณยังไม่ได้เลือกปัญหา"}</span> , 2);
+        }
+        
+    }
+
+    async function specialPrompt3(){
+        setUserTextBox("");
+        setLoading(true);
+        addMessage("คุณ",<span>{"แนะนำการปลูกองุ่น"}</span>, 1);
+        const gemini = await sendPrompt("แนะนำการปลูกองุ่น ขอไม่เกิน 200 คำ");
+        const message = gemini.response;
+        setLoading(false);
+        if (message.trim() != ""){
+            addMessage("Bot", formatter(message), 2);
+        }
+
+
+    }
+
     // FILL CODE INSIDE THE RETURN STATEMENT
     return (<>
 
@@ -122,13 +229,11 @@ function ChatBot(props: any){
             </div>
             <section className="flex flex-col w-80 gap-2 mx-1 my-1">
                 <div className="flex w-80 flex-wrap items-center justify-center">
-                    <div className="flex flex-wrap w-60 gap-1">
-                        <FAQsButton setText={setUserTextBox} text={userTextbox} name="วิธีการตัดแต่ง"/>
-                        <FAQsButton setText={setUserTextBox} text={userTextbox} name="ดูแลยังไง"/>
-                        <FAQsButton setText={setUserTextBox} text={userTextbox} name="รดน้ำยังไง"/>
-                        <FAQsButton setText={setUserTextBox} text={userTextbox} name="ดินเป็นกรด"/>
-                        <FAQsButton setText={setUserTextBox} text={userTextbox} name="ดินเป็นด่าง"/>
-                        <FAQsButton setText={setUserTextBox} text={userTextbox} name="วิธีการปลูก"/>
+                    <div className="flex flex-wrap w-72 gap-1 items-center justify-center">
+                        <FAQsButton onClick={specialPrompt1} value="วิเคราะห์ผลการวัด"/>
+                        <FAQsButton onClick={specialPrompt2} value="แก้ปัญหาที่เลือกยังไง"/>
+                        <FAQsButton onClick={specialPrompt3} value="แนะนำการปลูกองุ่น"/>
+
                     </div>
                 </div>
                 <div className="flex flex-row w-80 mb-3 items-center justify-center content-center inset-y-0 place-items-end">

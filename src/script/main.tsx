@@ -12,6 +12,7 @@ let messages: any[] = [];
 let userSensorData: any[] = [];
 let meanSensorData: { humidity: number; light: number; vibration: number; } | null = null;
 let latestSensorFetch = 0;
+let viewingProblem: any = null;
 
 
 export async function initalize() {
@@ -56,6 +57,18 @@ export function setSolving(ticket_id: string){
 export function getSensorId(){
     return currentSensorId;
 }
+
+export function setViewingProblem(problem: any){
+    viewingProblem = problem;
+}
+
+export function getViewingProblem(){
+    return viewingProblem;
+}
+
+
+
+
 
 export async function loadSensorData(device_id: string){
 
