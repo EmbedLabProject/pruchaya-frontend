@@ -51,7 +51,7 @@ export async function sendPrompt(prompt: string){
 
 
 export async function getSensorData(device_id: string){
-  const result = await fetch(`http://localhost:3222/sensors/get`, {
+  const result = await fetch(`${BACKEND_URL}/sensors/get`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
