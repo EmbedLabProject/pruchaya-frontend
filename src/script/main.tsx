@@ -95,7 +95,7 @@ export function setUserSensorData(newSensorData: any[]){
         meanSensorData = null;
     }
     else {
-        meanSensorData = {humidity: sumHumid/selectedData, light: sumLight/selectedData, vibration: sumVibra/selectedData};
+        meanSensorData = {humidity: Math.round(sumHumid/selectedData), light: Math.round(sumLight/selectedData), vibration: Math.round(sumVibra/selectedData)};
     }
 }
 

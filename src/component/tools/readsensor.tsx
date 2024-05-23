@@ -101,6 +101,12 @@ function ReadSensor(props: any){
         setSensorData(newSensorData);
     }
 
+    function resetDataHandler(){
+        setUserSensorData([]);
+        setSensorData([]);
+        setSearchID("");
+    }
+
     function toggleSelectHandler(id: number){
         const newSensorData = sensorData;
         const selected = newSensorData.find(i => i.id == id).selected;
@@ -124,16 +130,35 @@ function ReadSensor(props: any){
         <SensorBlock key={i.id} humidPer={i.humidity} vibraPer={i.vibration} lightPer={i.light} date={toDateString(i.time)} selected={i.selected} onClick={() => toggleSelectHandler(i.id)}/>
     );
 
+    const meanSensorData = getMeanSensorData();
+
+    const meanSensorComp = <div className="flex flex-row gap-2">
+    <div className="flex flex-row gap-1 items-center justify-center">
+        <SunIcon className="w-5"/>
+        <p className="text-sm font-semibold">{meanSensorData?.light}%</p>
+    </div>
+    <div className="flex flex-row gap-1 items-center justify-center">
+        <IoIosWater  />
+        <p className="text-sm font-semibold">{meanSensorData?.humidity}%</p>
+    </div>
+    <div className="flex flex-row gap-1 items-center justify-center">
+        <RssIcon className="w-4"/>
+        <p className="text-sm font-semibold">{meanSensorData?.vibration}%</p>
+    </div>
+    </div>;
+
+    const noDataComp = <p className="text-sm font-medium">ยังไม่เลือกข้อมูล</p>;
+
     // FILL CODE INSIDE THE RETURN STATEMENT
     return (<>
         <div className="w-80 h-fit flex flex-col bg-white rounded-lg bg-opacity-60 mb-5 shadow-md">
             {/* <p className="text-xs text-black mx-1 my-1">Hi, I'm Sensor Reader!</p> */}
             <div className="flex flex-row w-80 mb-3 items-center justify-center gap-5 my-3">
                 <p className=" text-black text-xs w-35 mb-1">รหัสของอุปกรณ์</p>
-                <input value={searchID} onChange={event => setSearchID(event.target.value)} className="rounded-full shadow-md py-4 px-3 ps-10 w-45 h-4 text-xs text-black" type="text" placeholder="device ID"/>
+                <input value={searchID} onChange={event => setSearchID(event.target.value)} className="rounded-full shadow-md py-4 px-3 ps-10 w-45 h-4 text-xs text-black" type="text" placeholder="กรอก Device ID"/>
             </div>
             {/* {(loading) ? infoUI : null} */}
-            <div className="flex flex-col gap-1 items-center h-36 overflow-y-scroll mb-2">
+            <div className="flex flex-col gap-1 items-center max-h-36 overflow-y-scroll mb-2">
                 {sensorDataList}
                 {loading ? loadingUI : null}
                 
@@ -147,14 +172,18 @@ function ReadSensor(props: any){
 
 
             </div>
-            <div className="w-80 mb-3 flex justify-end gap-3">
-                <button onClick={() => getDataHandler()} className={"bg-white text-black grid items-center justify-center rounded-lg shadow-md w-12 h-6 "}>
-                    <MagnifyingGlassIcon className="w-6 h-6 "/>
-                </button>
-                <button onClick={() => reloadID()} className={"bg-white text-black grid items-center justify-center rounded-lg shadow-md w-12 h-6 mx-3"}>
-                    <ArrowPathIcon className="w-6 h-6"/>
-                </button>
+            <div className="w-80 p-2 flex flex-row items-center justify-between">
+                {(meanSensorData) ? meanSensorComp : noDataComp}
+                <div className="w-fit flex gap-2">
+                    <button onClick={() => getDataHandler()} className={"bg-white text-black grid items-center justify-center rounded-lg shadow-md w-12 h-6 "}>
+                        <MagnifyingGlassIcon className="w-6 h-6 "/>
+                    </button>
+                    <button onClick={() => resetDataHandler()} className={"bg-white text-black grid items-center justify-center rounded-lg shadow-md w-12 h-6"}>
+                        <ArrowPathIcon className="w-6 h-6"/>
+                    </button>
+                </div>
             </div>
+            
         </div>
         
 
