@@ -1,13 +1,16 @@
-import { MagnifyingGlassIcon } from "@heroicons/react/16/solid";
+import { MagnifyingGlassIcon, RssIcon } from "@heroicons/react/16/solid";
 import { ArrowPathIcon } from "@heroicons/react/16/solid";
 import { useState } from "react";
 import { BeakerIcon } from "@heroicons/react/16/solid";
 import { SunIcon } from "@heroicons/react/16/solid";
 import { InformationCircleIcon } from "@heroicons/react/16/solid";
 import { ShieldExclamationIcon } from "@heroicons/react/16/solid";
+import { IoIosWater } from "react-icons/io";
+import SensorBlock from "../sensorblock";
+import { getMeanSensorData, getSensorId, getUserSensorData, loadSensorData, setUserSensorData } from "@/script/main";
 function ReadSensor(props: any){
 
-    const [searchID, setSearchID] = useState("")
+    const [searchID, setSearchID] = useState(getSensorId())
     const [awating, setAwaiting] = useState(true)
     const [loading, setLoading] = useState(false)
     const [showing, setshowing] = useState(false)
@@ -19,6 +22,23 @@ function ReadSensor(props: any){
     const [recHumidity,setRecHumidity] = useState(75)
     const [recLight,setRecLight] = useState(70)
     const [recVibration,setRecVibration] = useState(60)
+    const [sensorData, setSensorData] = useState<any[]>(getUserSensorData())
+
+    console.log(getMeanSensorData());
+
+
+    function toDateString(unix: number){
+        var a = new Date(unix * 1000);
+        var months = ['ม.ค.','ก.พ.','มี.ค.','เม.ย.','พ.ค.','มิ.ย.','ก.ค.','ส.ค.','ก.ย.','ต.ค.','พ.ย.','ธ.ค.'];
+        var year = a.getFullYear() + 543;
+        var month = months[a.getMonth()];
+        var date = String(a.getDate()).padStart(2, '0');;
+        var hour = String(a.getHours()).padStart(2, '0');;
+        var min = String(a.getMinutes()).padStart(2, '0');;
+        var sec = String(a.getSeconds()).padStart(2, '0');;
+        var time = date + ' ' + month + ' ' + year + ' ' + hour + ':' + min + ':' + sec ;
+        return time;
+      }
 
     function submitID(){
         setAwaiting(false)
@@ -61,121 +81,109 @@ function ReadSensor(props: any){
         }
     };
 
-    const notFoundUI = <div className="flex w-full items-center justify-center"><p className="text-xs font-light text-black">กระถางนี้ไม่มีในระบบ</p></div>;
-    const skeletonUI = <><p className="flex flex-row w-full h-16 bg-white rounded-lg items-center justify-center p-2 gap-3 animate-pulse">
-        <p className="text-xs text-gray-400">กำลังโหลด...</p>
-        </p></>;
-    const waterUI = 
-        <div className="flex flex-row w-full h-16 items-center justify-start p-2">                
-            <div className="flex items-center space-x-3">
-                <div className="w-6 h-6 rounded-full bg-blue-800 grid place-content-center">
-                    <BeakerIcon className="w-4 h-4 text-white" />
 
-                    {/* <ShieldExclamationIcon className="w-4 h-4 text-white"/> */}
-                    {/* <div className="text-xs text-white">pH</div> */}
-                </div>
-                <div className="relative w-52 h-5 bg-gray-200 rounded-full overflow-hidden">
-                    <div className="h-full bg-blue-800" style={{ width: `${humidity}%` }}></div>
-                    <div className="absolute top-0 bottom-0 w-1 bg-green-500" style={{ left: `${recHumidity}%` }}></div>
-                </div>
-                {/* <span className="text-blue-800 text-xl">{humidity}%</span> */}
-                <div className="flex flex-col items-start">
-                    <button className="">
-                        <InformationCircleIcon className="w-4 h-4 text-blue-800"/>
-                    </button>
-                </div>
-            </div>
-        </div>
+    async function getDataHandler(){
+        setLoading(true);
+        const data = await loadSensorData(searchID);
+        console.log(data);
+        setLoading(false);
+        const newSensorData = []
+        for (let i=1 ; i<=10; i++){
+            if (i > data.length){
+                break;
+            }
+            newSensorData.push(data[data.length - i]);
+            newSensorData[i-1].id = i;
+            newSensorData[i-1].selected = false;
+
+        }
+        setUserSensorData(newSensorData);
+        setSensorData(newSensorData);
+    }
+
+    function resetDataHandler(){
+        setUserSensorData([]);
+        setSensorData([]);
+        setSearchID("");
+    }
+
+    function toggleSelectHandler(id: number){
+        const newSensorData = sensorData;
+        const selected = newSensorData.find(i => i.id == id).selected;
+        if (selected){
+            newSensorData.find(i => i.id == id).selected = false;
+        }
+        else {
+            newSensorData.find(i => i.id == id).selected = true;
+        }
+        setUserSensorData(newSensorData);
+        setSensorData([...newSensorData]);
+    }
     
-    const lightUI =
-        <div className="flex flex-row w-full h-16 items-center justify-start p-2">                
-            <div className="flex items-center space-x-3">
-                <div className="w-6 h-6 rounded-full bg-yellow-400 grid place-content-center">
-                    <SunIcon className="w-4 h-4 text-white"/>
-                </div>
-                <div className="relative w-52 h-5 bg-gray-200 rounded-full overflow-hidden">
-                    <div
-                    className="h-full transition-all duration-300 ease-in-out"
-                    style={{ width: `${(light / 100) * 100}%`, backgroundColor: getColorPH(light) }}
-                    ></div>
-                    <div
-                    className="absolute top-0 bottom-0 w-1 bg-red-500"
-                    style={{ left: `${(recLight / 100) * 100}%` }}
-                    ></div>
-                </div>
-                <div className="flex flex-col items-start">
-                    <button className="">
-                        <InformationCircleIcon className="w-4 h-4 text-blue-800"/>
-                    </button>
-                </div>
-            </div>
-        </div>
-
-const vibrationUI =
-        <div className="flex flex-row w-full h-16 items-center justify-start p-2">                
-            <div className="flex items-center space-x-3">
-                <div className="w-6 h-6 rounded-full bg-yellow-900 grid place-content-center">
-                    <ShieldExclamationIcon className="w-4 h-4 text-white"/>
-                </div>
-                <div className="relative w-52 h-5 bg-gray-200 rounded-full overflow-hidden">
-                    <div
-                    className="h-full transition-all duration-300 ease-in-out"
-                    style={{ width: `${(vibration / 100) * 100}%`, backgroundColor: getColorPH(vibration) }}
-                    ></div>
-                    <div
-                    className="absolute top-0 bottom-0 w-1 bg-red-500"
-                    style={{ left: `${(recVibration / 100) * 100}%` }}
-                    ></div>
-                </div>
-                <div className="flex flex-col items-start">
-                    <button className="">
-                        <InformationCircleIcon className="w-4 h-4 text-blue-800"/>
-                    </button>
-                </div>
-            </div>
-        </div>
 
 
-        
-        
-    const infoUI = <section className="items-center justify-center mx-5 my-5 gap-5">
-        <h1 className="text-sm font-light text-left text-black">
-            วันที่วัดค่า: {date} {time}
-            {(!loading && (date =="" || time == "")) ? notFoundUI : null}
-            {(loading) ? skeletonUI : null}
-        </h1>
-        <article>
-            <h2 className="text-sm font-light text-left text-black">
-                สถานะต้นไม้: 
-                {(!loading && (humidity==-1 || light==-1 || vibration==-1)) ? (notFoundUI) : [waterUI, lightUI,vibrationUI]}
-                {(loading) ? skeletonUI : null}
-            </h2>
-            
-            
-        
-        </article>
-        
-    </section>
 
-    
+    const loadingUI = <><div className="w-72 h-16 bg-white bg-opacity-70 rounded-lg animate-pulse"></div>
+    <div className="w-72 h-16 bg-white bg-opacity-70 rounded-lg animate-pulse"></div></>;
+
+    const sensorDataList = sensorData.map(i =>
+        <SensorBlock key={i.id} humidPer={i.humidity} vibraPer={i.vibration} lightPer={i.light} date={toDateString(i.time)} selected={i.selected} onClick={() => toggleSelectHandler(i.id)}/>
+    );
+
+    const meanSensorData = getMeanSensorData();
+
+    const meanSensorComp = <div className="flex flex-row gap-2">
+    <div className="flex flex-row gap-1 items-center justify-center">
+        <SunIcon className="w-5"/>
+        <p className="text-sm font-semibold">{meanSensorData?.light}%</p>
+    </div>
+    <div className="flex flex-row gap-1 items-center justify-center">
+        <IoIosWater  />
+        <p className="text-sm font-semibold">{meanSensorData?.humidity}%</p>
+    </div>
+    <div className="flex flex-row gap-1 items-center justify-center">
+        <RssIcon className="w-4"/>
+        <p className="text-sm font-semibold">{meanSensorData?.vibration}%</p>
+    </div>
+    </div>;
+
+    const noDataComp = <p className="text-sm font-medium">ยังไม่เลือกข้อมูล</p>;
 
     // FILL CODE INSIDE THE RETURN STATEMENT
     return (<>
-        <div className="w-80 h-fit flex flex-col bg-white rounded-lg bg-opacity-60 mb-5 shadow-md mt-10">
+        <div className="w-80 h-fit flex flex-col bg-white rounded-lg bg-opacity-60 mb-5 shadow-md">
             {/* <p className="text-xs text-black mx-1 my-1">Hi, I'm Sensor Reader!</p> */}
             <div className="flex flex-row w-80 mb-3 items-center justify-center gap-5 my-3">
                 <p className=" text-black text-xs w-35 mb-1">รหัสของอุปกรณ์</p>
-                <input value={searchID} onChange={event => setSearchID(event.target.value)} className="rounded-full shadow-md py-4 px-3 ps-10 w-45 h-4 text-xs text-black" type="text" placeholder="device ID"/>
+                <input value={searchID} onChange={event => setSearchID(event.target.value)} className="rounded-full shadow-md py-4 px-3 ps-10 w-45 h-4 text-xs text-black" type="text" placeholder="กรอก Device ID"/>
             </div>
-            {(loading) ? infoUI : null}
-            <div className="w-80 mb-3 flex justify-end gap-3">
-                <button onClick={() => submitID()} className={"bg-white text-black grid items-center justify-center rounded-lg shadow-md w-12 h-6 "}>
-                    <MagnifyingGlassIcon className="w-6 h-6 "/>
-                </button>
-                <button onClick={() => reloadID()} className={"bg-white text-black grid items-center justify-center rounded-lg shadow-md w-12 h-6 mx-3"}>
-                    <ArrowPathIcon className="w-6 h-6"/>
-                </button>
+            {/* {(loading) ? infoUI : null} */}
+            <div className="flex flex-col gap-1 items-center max-h-36 overflow-y-scroll mb-2">
+                {sensorDataList}
+                {loading ? loadingUI : null}
+                
+
+                
+
+
+                
+
+
+
+
             </div>
+            <div className="w-80 p-2 flex flex-row items-center justify-between">
+                {(meanSensorData) ? meanSensorComp : noDataComp}
+                <div className="w-fit flex gap-2">
+                    <button onClick={() => getDataHandler()} className={"bg-white text-black grid items-center justify-center rounded-lg shadow-md w-12 h-6 "}>
+                        <MagnifyingGlassIcon className="w-6 h-6 "/>
+                    </button>
+                    <button onClick={() => resetDataHandler()} className={"bg-white text-black grid items-center justify-center rounded-lg shadow-md w-12 h-6"}>
+                        <ArrowPathIcon className="w-6 h-6"/>
+                    </button>
+                </div>
+            </div>
+            
         </div>
         
 

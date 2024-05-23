@@ -1,12 +1,16 @@
-import { getProblems } from "./api";
+import { getProblems, getSensorData } from "./api";
 
 let allProblems: any[] = [];
 let userLatitude = 0;
 let userLongitude = 0;
 let currentProblemId = "";
 let expertMode = false;
+let currentSensorId = "";
+let currentSensorData: any[] = [];
 let solving = "";
 let messages: any[] = [];
+let userSensorData: any[] = [];
+let meanSensorData: { humidity: number; light: number; vibration: number; } | null = null;
 
 
 
@@ -47,6 +51,56 @@ export function getSolving(){
 
 export function setSolving(ticket_id: string){
     solving = ticket_id;
+}
+
+export function getSensorId(){
+    return currentSensorId;
+}
+
+export async function loadSensorData(device_id: string){
+    const response = await getSensorData(device_id);
+    if (response.data.length == 0){
+        currentSensorData = [];
+        currentSensorId = device_id;
+        return currentSensorData;
+    }
+    if (device_id == currentSensorId){
+        return currentSensorData;
+    }
+    
+    currentSensorData = response.data;
+    currentSensorId = device_id;
+    return currentSensorData;
+}
+
+export function getUserSensorData(){
+    return userSensorData;
+}
+
+export function setUserSensorData(newSensorData: any[]){
+    userSensorData = newSensorData;
+    let sumHumid = 0;
+    let sumLight = 0;
+    let sumVibra = 0;
+    let selectedData = 0;
+    userSensorData.forEach(i => {
+        if (i.selected){
+            selectedData++;
+            sumHumid += i.humidity;
+            sumLight += i.light;
+            sumVibra += i.vibration;
+        }
+    })
+    if (selectedData == 0){
+        meanSensorData = null;
+    }
+    else {
+        meanSensorData = {humidity: Math.round(sumHumid/selectedData), light: Math.round(sumLight/selectedData), vibration: Math.round(sumVibra/selectedData)};
+    }
+}
+
+export function getMeanSensorData(){
+    return meanSensorData;
 }
 
 

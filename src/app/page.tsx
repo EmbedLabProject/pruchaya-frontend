@@ -72,7 +72,7 @@ export default function Home() {
   },[loading]);
 
 
-  const [selectedTool, setSelectedTool] = useState("identifyplant");
+  const [selectedTool, setSelectedTool] = useState("readsensor");
 
   let toolElement = <></>;
   if (selectedTool == "identifyplant"){
@@ -93,18 +93,8 @@ export default function Home() {
 
   <main className="font-anuphan flex flex-col items-center w-full min-h-screen bg-gradient-to-b from-teal-500 to-emerald-300 pt-10 pb-24">
     <h1 className="text-3xl font-semibold text-white mb-5">พืชญา</h1>
-    <div className="flex flex-row w-80 gap-2 mb-10">
-      <button onClick={() => handleModeChange(false)} className={"flex flex-row items-center justify-center gap-3 w-1/2 h-12 bg-white rounded-lg text-black " + volunteerButtonProp}>
-        <div className="w-6 h-6 bg-gray-300 rounded-full"></div>
-        <p className="text-sm">โหมดอาสาสมัคร</p>
-      </button>
-      <button onClick={() => handleModeChange(true)} className={"flex flex-row items-center justify-center gap-3 w-1/2 h-12 bg-white rounded-lg text-black " + expertButtonProp}>
-      <div className="w-6 h-6 bg-gray-300 rounded-full"></div>
-        <p className="text-sm">โหมดมืออาชีพ</p>
-      </button>
-      
-    </div>
-    <div className="flex flex-row w-80 mb-3 items-center justify-center">
+    
+    <div className="flex flex-row w-80 mt-5 mb-3 items-center justify-center">
       <p className=" text-white text-lg font-medium w-80 mb-1">เลือกปัญหา</p>
       <div className="relative">
         <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
@@ -134,7 +124,7 @@ export default function Home() {
 
     <p className=" mt-5 text-white text-lg font-medium w-80">เครื่องมือ</p>
     <div className="mb-2 flex flex-row flex-wrap w-80 gap-2">
-      <button onClick={() => setSelectedTool("identifyplant")} className="w-fit h-fit bg-white text-black px-3 rounded-full font-light shadow-md text-xs py-1 hover:bg-gray-700 hover:text-white">ค้นหาชนิดพืช</button>
+      {/* <button onClick={() => setSelectedTool("identifyplant")} className="w-fit h-fit bg-white text-black px-3 rounded-full font-light shadow-md text-xs py-1 hover:bg-gray-700 hover:text-white">ค้นหาชนิดพืช</button> */}
       <button onClick={() => setSelectedTool("readsensor")} className="w-fit h-fit bg-white text-black px-3 rounded-full font-light shadow-md text-xs py-1 hover:bg-gray-700 hover:text-white">อ่านค่าเซนเซอร์</button>
       <button onClick={() => setSelectedTool("chatbot")} className="w-fit h-fit bg-white text-black px-3 rounded-full font-light shadow-md text-xs py-1 hover:bg-gray-700 hover:text-white">AI ผู้ช่วย</button>
     </div>

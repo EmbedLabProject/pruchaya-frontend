@@ -49,3 +49,15 @@ export async function sendPrompt(prompt: string){
   return result;
 }
 
+
+export async function getSensorData(device_id: string){
+  const result = await fetch(`http://localhost:3222/sensors/get`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({device_id: device_id}),
+  }).then(r => (r.json()));
+  return result;
+}
+
