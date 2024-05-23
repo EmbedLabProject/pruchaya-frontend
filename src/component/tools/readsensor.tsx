@@ -123,8 +123,11 @@ function ReadSensor(props: any){
 
 
 
-    const loadingUI = <><div className="w-72 h-16 bg-white bg-opacity-70 rounded-lg animate-pulse"></div>
-    <div className="w-72 h-16 bg-white bg-opacity-70 rounded-lg animate-pulse"></div></>;
+    const skeletonUI = <><div className="flex flex-row w-72 h-16 bg-white rounded-lg items-center justify-center p-2 gap-3 animate-pulse">
+    <p className="text-xs text-gray-400">กำลังโหลด...</p>
+    </div><div className="flex flex-row w-72 h-16 bg-white rounded-lg items-center justify-center p-2 gap-3 animate-pulse">
+        <p className="text-xs text-gray-400">กำลังโหลด...</p>
+    </div></>;
 
     const sensorDataList = sensorData.map(i =>
         <SensorBlock key={i.id} humidPer={i.humidity} vibraPer={i.vibration} lightPer={i.light} date={toDateString(i.time)} selected={i.selected} onClick={() => toggleSelectHandler(i.id)}/>
@@ -160,7 +163,7 @@ function ReadSensor(props: any){
             {/* {(loading) ? infoUI : null} */}
             <div className="flex flex-col gap-1 items-center max-h-36 overflow-y-scroll mb-2">
                 {sensorDataList}
-                {loading ? loadingUI : null}
+                {loading ? skeletonUI : null}
                 
 
                 
