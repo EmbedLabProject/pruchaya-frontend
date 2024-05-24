@@ -7,7 +7,7 @@ import { getUserLat, initalize, isExpertMode, setMode } from "@/script/main";
 import Image from "next/image";
 import ProblemContainer from "@/component/problemcontainer";
 import ConstraintButton from "@/component/constraintbutton";
-import {withinRadiusCon, witheredCon, obstructedCon, beeHiveCon, fallenTreeCon} from "@/script/searchconstraint";
+import {withinRadiusCon, witheredCon, obstructedCon, fallenTreeCon, wiringCon, cuttingCon, drainageCon} from "@/script/searchconstraint";
 import ProblemDetailBox from "@/component/problemdetailbox";
 import IdentifyPlant from "@/component/tools/identifyplant";
 import ReadSensor from "@/component/tools/readsensor";
@@ -41,7 +41,9 @@ export default function Home() {
   const [searchConstraint, setSearchConstraint] = useState<any[]>([]);
   const [withinRadius, setWithinRadius] = useState(false);
   const [fallenTree, setFallenTree] = useState(false);
-  const [beeHive, setBeeHive] = useState(false);
+  const [wiring, setWiring] = useState(false);
+  const [drainage, setDrainage] = useState(false);
+  const [cutting, setCutting] = useState(false);
   const [withered, setWithered] = useState(false);
   const [obstructed, setObstructed] = useState(false);
 
@@ -105,12 +107,14 @@ export default function Home() {
 
     </div>
     <div className="mb-2 flex flex-row w-80 gap-2 items-start justify-start">
-      <div className="flex w-60 flex-wrap gap-2">
+      <div className="flex w-68 flex-wrap gap-2">
         <ConstraintButton add={addConstraint} rem={removeConstraint} constraint={withinRadiusCon} setState={setWithinRadius} selected={withinRadius} text="รัศมี 5 กิโลเมตร"/>
-        <ConstraintButton add={addConstraint} rem={removeConstraint} constraint={fallenTreeCon} setState={setFallenTree} selected={fallenTree} text="ต้นไม้โค่น"/>
-        <ConstraintButton add={addConstraint} rem={removeConstraint} constraint={beeHiveCon} setState={setBeeHive} selected={beeHive} text="รังสัตว์"/>
+        <ConstraintButton add={addConstraint} rem={removeConstraint} constraint={fallenTreeCon} setState={setFallenTree} selected={fallenTree} text="โค่นล้ม"/>
+        <ConstraintButton add={addConstraint} rem={removeConstraint} constraint={wiringCon} setState={setWiring} selected={wiring} text="สายไฟ"/>
         <ConstraintButton add={addConstraint} rem={removeConstraint} constraint={witheredCon} setState={setWithered} selected={withered} text="เหี่ยวเฉา"/>
         <ConstraintButton add={addConstraint} rem={removeConstraint} constraint={obstructedCon} setState={setObstructed} selected={obstructed} text="กีดขวาง"/>
+        <ConstraintButton add={addConstraint} rem={removeConstraint} constraint={cuttingCon} setState={setCutting} selected={cutting} text="ตัด & แต่ง"/>
+        <ConstraintButton add={addConstraint} rem={removeConstraint} constraint={drainageCon} setState={setDrainage} selected={drainage} text="ท่อน้ำ"/>
       </div>
     </div>
     <ProblemContainer setSelected={setSelectedProb} searchQuery={searchQuery} searchConstraint={searchConstraint}/>

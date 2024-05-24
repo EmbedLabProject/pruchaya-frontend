@@ -151,7 +151,7 @@ function ReadSensor(props: any){
     </div>
     </div>;
 
-    const noDataComp = <p className="text-sm font-medium">ยังไม่เลือกข้อมูล</p>;
+    const noDataComp = <p className="text-sm font-medium text-black">ยังไม่เลือกข้อมูล</p>;
 
     // FILL CODE INSIDE THE RETURN STATEMENT
     return (<>

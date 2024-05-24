@@ -51,7 +51,7 @@ function ProblemContainer(props: any) {
                         desc = desc.substring(0, 25) + "...";
                     }
                     // let dist = distFromUser(p.lat,p.long).toFixed(2);
-                    temp.push(<ProblemBox key={p.ticket_id} name={desc} onClick={() => setSelectedHandler(p)}/>);
+                    temp.push(<ProblemBox key={p.ticket_id} date={p.timestamp} name={desc} onClick={() => setSelectedHandler(p)}/>);
                 }
             });
             setList(temp);
